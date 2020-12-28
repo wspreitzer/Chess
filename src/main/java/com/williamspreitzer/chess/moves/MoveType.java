@@ -1,0 +1,13 @@
+package com.williamspreitzer.chess.moves;
+
+public enum MoveType {
+	MAJOR_ATTACK_MOVE,
+	MAJOR_MOVE,
+	PAWN_ATTACK_MOVE,
+	PAWN_JUMP_MOVE,
+	PAWN_MOVE,
+	PAWN_EN_PASSANT_ATTACK_MOVE,
+	KING_SIDE_CASTLE_MOVE,
+	QUEEN_SIDE_CASTLE_MOVE,
+	NULL_MOVE
+}
