@@ -22,10 +22,10 @@ public class Queen implements Piece {
 	private boolean isFirstMove;
 	private int cachedHashCode;
 	
-	Queen(int position, Color color) {
+	Queen(int position, Color color, boolean isFirstMove) {
 		this.position = position;
 		this.color = color;
-		this.isFirstMove = false;
+		this.isFirstMove = isFirstMove;
 		this.cachedHashCode = computeHashCode();
 	}
 	
@@ -39,6 +39,10 @@ public class Queen implements Piece {
 
 	public boolean isFirstMove() {
 		return false;
+	}
+	
+	public void setFirstMove(boolean isFirstMove) {
+		this.isFirstMove = isFirstMove;
 	}
 	
 	public Collection<Move> calculateLegalMoves(Board board) {
@@ -63,8 +67,7 @@ public class Queen implements Piece {
 							break;
 						}
 					}
-					break;
-				}
+				} 
 			}
 		}
 		return ImmutableList.copyOf(legalMoves);
@@ -75,7 +78,7 @@ public class Queen implements Piece {
 	}
 	
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor());
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(),false);
 	}
 	
 	@Override
@@ -94,6 +97,8 @@ public class Queen implements Piece {
 			Queen otherQueen = (Queen) other;
 			if (this.position == otherQueen.position && this.color == otherQueen.getColor()) {
 				retVal = true;
+			} else {
+				retVal = false;
 			}
 		}
 		return retVal.booleanValue();

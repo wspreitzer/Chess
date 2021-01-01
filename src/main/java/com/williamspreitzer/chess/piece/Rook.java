@@ -21,10 +21,10 @@ public class Rook implements Piece{
 	private boolean isFirstMove;
 	private int cachedHashCode;
 	
-	Rook(int position, Color color) {
+	Rook(int position, Color color, boolean isFirstMove) {
 		this.position = position;
 		this.color = color;
-		this.isFirstMove = false;
+		this.isFirstMove = isFirstMove;
 		this.cachedHashCode = computeHashCode();
 	}
 	
@@ -38,6 +38,10 @@ public class Rook implements Piece{
 
 	public boolean isFirstMove() {
 		return this.isFirstMove;
+	}
+	
+	public void setFirstMove(boolean isFirstMove) {
+		this.isFirstMove = isFirstMove;
 	}
 	
 	public Collection<Move> calculateLegalMoves(Board board) {
@@ -75,7 +79,7 @@ public class Rook implements Piece{
 	}
 	
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor());
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(), false);
 	}
 	
 	@Override
@@ -94,6 +98,8 @@ public class Rook implements Piece{
 			Rook otherRook = (Rook) other;
 			if (this.position == otherRook.position && this.color == otherRook.getColor()) {
 				retVal = true;
+			} else {
+				retVal = false;
 			}
 		}
 		return retVal.booleanValue();

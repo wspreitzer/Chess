@@ -32,6 +32,9 @@ public class Pawn implements Piece{
 		return isFirstMove;
 	}
 
+	public void setFirstMove(boolean isFirstMove) {
+		this.isFirstMove = isFirstMove;
+	}
 	public Color getColor() {
 		return this.color;
 	}
@@ -80,7 +83,6 @@ public class Pawn implements Piece{
 								legalMoves.add(MoveFactory.createAttackMove(
 										MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
 							}
-							break;
 						}
 						break;
 					case 9:
@@ -94,7 +96,6 @@ public class Pawn implements Piece{
 							if( !GameUtils.FIRST_COLUMN[this.position] ) {
 								legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
 							}
-							break;
 						}
 						break;
 					}
@@ -109,7 +110,7 @@ public class Pawn implements Piece{
 	}
 	
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor());
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(),false);
 	}
 	
 	@Override
@@ -128,6 +129,8 @@ public class Pawn implements Piece{
 			Pawn otherPawn = (Pawn) other;
 			if (this.position == otherPawn.position && this.color == otherPawn.getColor()) {
 				retVal = true;
+			} else {
+				retVal = false;
 			}
 		}
 		return retVal.booleanValue();

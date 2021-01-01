@@ -21,10 +21,10 @@ public class Bishop implements Piece {
 	private int cachedHashCode;
 	private boolean isFirstMove;
 	
-	Bishop(int position, Color color) {
+	Bishop(int position, Color color, boolean isFirstMove) {
 		this.position = position;
 		this.color = color;
-		this.isFirstMove = false;
+		this.isFirstMove = isFirstMove;
 		this.cachedHashCode = computeHashCode();
 	}
 	
@@ -62,7 +62,6 @@ public class Bishop implements Piece {
 							break;
 						}
 					}
-					break;
 				}
 			}
 		}
@@ -74,7 +73,7 @@ public class Bishop implements Piece {
 	}
 	
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor());
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(), false);
 	}
 
 	@Override
@@ -93,6 +92,8 @@ public class Bishop implements Piece {
 			Bishop otherBishop = (Bishop) other;
 			if (this.position == otherBishop.position && this.color == otherBishop.getColor()) {
 				retVal = true;
+			} else {
+				retVal = false;
 			}
 		}
 		return retVal.booleanValue();
@@ -101,6 +102,10 @@ public class Bishop implements Piece {
 	@Override
 	public int hashCode() {
 		return this.cachedHashCode;
+	}
+	
+	public void setFirstMove(boolean isFirstMove) {
+		this.isFirstMove = isFirstMove;
 	}
 	
 	private int computeHashCode() {

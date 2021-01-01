@@ -21,10 +21,10 @@ public class Knight implements Piece {
 	private boolean isFirstMove;
 	private int cachedHashCode;
 	
-	Knight(int position, Color color) {
+	Knight(int position, Color color, boolean isFirstMove) {
 		this.position = position;
 		this.color = color;
-		this.isFirstMove = false;
+		this.isFirstMove = isFirstMove;
 		this.cachedHashCode = computeHashCode();
 	}
 
@@ -52,13 +52,9 @@ public class Knight implements Piece {
 						Color pieceColor = pieceAtDestination.getColor();
 						if(this.getColor() != pieceColor ) {
 							legalMoves.add(MoveFactory.createAttackMove(MoveType.MAJOR_ATTACK_MOVE, board, this, destinationCoordinate, pieceAtDestination));
-						} else {
-							continue;
-						}
+						} 
 					}
-				} else {
-					break;
-				}
+				} 
 			}
 		}
 		return legalMoves;
@@ -69,7 +65,7 @@ public class Knight implements Piece {
 	}
 	
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor());
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(), false);
 	}
 	
 	@Override
@@ -88,6 +84,8 @@ public class Knight implements Piece {
 			Knight otherKnight = (Knight) other;
 			if (this.position == otherKnight.position && this.color == otherKnight.getColor()) {
 				retVal = true;
+			} else {
+				retVal = false;
 			}
 		}
 		return retVal.booleanValue();
@@ -96,6 +94,10 @@ public class Knight implements Piece {
 	@Override
 	public int hashCode() {
 		return this.cachedHashCode;
+	}
+	
+	public void setFirstMove(boolean isFirstMove) {
+		this.isFirstMove = isFirstMove;
 	}
 	
 	private int computeHashCode() {

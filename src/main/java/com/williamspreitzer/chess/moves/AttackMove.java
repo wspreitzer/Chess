@@ -1,6 +1,7 @@
 package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
+import com.williamspreitzer.chess.board.Board.Builder;
 import com.williamspreitzer.chess.piece.Piece;
 
 public abstract class AttackMove implements Move {
@@ -21,14 +22,16 @@ public abstract class AttackMove implements Move {
 
 	public abstract Board getBoard();
 
-	public abstract int getDestinationCoordinate();
-
 	public abstract Piece getMovedPiece();
 
 	public abstract Piece getAttackedPiece();
 	
 	public int getCurrentCoordinate() {
 		return this.movedPiece.getPosition();
+	}
+	
+	public int getDestinationCoordinate() {
+		return this.destinationCoordinate;
 	}
 	
 	public boolean isAttack() {
@@ -72,6 +75,17 @@ public abstract class AttackMove implements Move {
 		return retVal.booleanValue();
 	}
 	public Board execute() {
-		return null;
+		Builder builder = new Builder();
+		for(Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
+			if(!this.movedPiece.equals(piece)) {
+				builder.setPiece(piece);
+			}
+		}
+		for(Piece piece : this.board.getCurrentPlayer().getOpponent().getActivePieces()) {
+			builder.setPiece(piece);
+		}
+		builder.setPiece(this.movedPiece.movePiece(this));
+		builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getColor());
+		return builder.build();
 	}
 }

@@ -20,11 +20,6 @@ public class MajorAttackMove extends AttackMove {
 	}
 
 	@Override
-	public int getDestinationCoordinate() {
-		return this.destinationCoordinate;
-	}
-
-	@Override
 	public Piece getMovedPiece() {
 		return this.movedPiece;
 	}

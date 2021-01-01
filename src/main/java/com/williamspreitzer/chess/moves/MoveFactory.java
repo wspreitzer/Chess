@@ -1,5 +1,7 @@
 package com.williamspreitzer.chess.moves;
 
+import java.util.ArrayList;
+
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.Rook;
@@ -66,13 +68,18 @@ public class MoveFactory {
 			                       final int destinationCooridnate) {
 		Move retVal = null;
 		for(final Move move : board.getAllLegalMoves()) {
+			
 			if(move.getCurrentCoordinate() == currentCooridnate && 
 					move.getDestinationCoordinate() == destinationCooridnate) {
 				retVal = move;
-			} else {
-				retVal = MoveFactory.createNonAttackingMove(MoveType.NULL_MOVE, null, null, -1);
+				break;
 			}
 		}
-		return null;
+		
+		if ( retVal == null ) {
+			retVal = MoveFactory.createNonAttackingMove(MoveType.NULL_MOVE, null, null, -1);
+		}
+		
+		return retVal;
 	}
 }

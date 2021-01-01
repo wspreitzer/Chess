@@ -12,5 +12,6 @@ public interface Piece {
 	abstract Collection<Move> calculateLegalMoves(Board board);
 	abstract PieceType getType();
 	abstract boolean isFirstMove();
+	abstract void setFirstMove(boolean firstMove);
 	public abstract Piece movePiece(Move move);
 }

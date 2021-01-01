@@ -10,7 +10,6 @@ public class PawnAttackMove extends AttackMove {
 	}
 
 	private Board board;
-	private int destinationCoordinate;
 	
 	@Override
 	public MoveType getType() {
@@ -22,10 +21,6 @@ public class PawnAttackMove extends AttackMove {
 		return this.board;
 	}
 
-	@Override
-	public int getDestinationCoordinate() {
-		return this.destinationCoordinate;
-	}
 
 	@Override
 	public Piece getMovedPiece() {

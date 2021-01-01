@@ -33,7 +33,7 @@ public abstract class NonAttackingMoves implements Move {
 		return false;
 	}
 	public Board execute() {
-		Board.Builder builder = new Builder();
+		Builder builder = new Builder();
 		for(Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
 			if(!this.movedPiece.equals(piece)) {
 				builder.setPiece(piece);

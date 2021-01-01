@@ -1,6 +1,7 @@
 package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
+import com.williamspreitzer.chess.board.Board.Builder;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.Rook;
 
@@ -40,7 +41,22 @@ public abstract class CastleMove implements Move {
 		return true;
 	}
 	public Board execute() {
-		return null;
+		Builder builder = new Builder();
+		for(Piece piece : this.board.getCurrentPlayer().getActivePieces()) {
+			if(!this.movedPiece.equals(piece) && !this.rook.equals(piece)) {
+				builder.setPiece(piece);
+			}
+		}
+		
+		for(Piece piece : this.board.getCurrentPlayer().getOpponent().getActivePieces()) {
+			builder.setPiece(piece);
+		}
+		this.movedPiece.setFirstMove(false);
+		this.rook.setFirstMove(false);
+		builder.setPiece(this.movedPiece.movePiece(this));
+		builder.setPiece(this.rook.movePiece(this));
+		builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getColor());
+		return builder.build();
 	}
 	
 	@Override

@@ -31,6 +31,10 @@ public class EnPassantPawn implements Piece{
 	public boolean isFirstMove() {
 		return false;
 	}
+	
+	public void setFirstMove(boolean isFirstMove) {
+		this.isFirstMove = isFirstMove;
+	}
 
 	public Collection<Move> calculateLegalMoves(Board board) {
 		return null;
@@ -41,7 +45,7 @@ public class EnPassantPawn implements Piece{
 	}
 
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(),  move.getMovedPiece().getColor());
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(),  move.getMovedPiece().getColor(), false);
 	}
 	
 	@Override
@@ -55,6 +59,8 @@ public class EnPassantPawn implements Piece{
 			EnPassantPawn ptherEnPassantPawn = (EnPassantPawn) other;
 			if (this.position == ptherEnPassantPawn.position && this.color == ptherEnPassantPawn.getColor()) {
 				retVal = true;
+			} else {
+				retVal = false;
 			}
 		}
 		return retVal.booleanValue();

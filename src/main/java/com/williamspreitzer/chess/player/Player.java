@@ -27,7 +27,7 @@ public abstract class Player {
 	public abstract Collection<Piece> getActivePieces();
 	public abstract Color getColor();
 	public abstract Player getOpponent();
-	protected abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegalMoves, Collection<Move> opponentLegalMoves);
+	public abstract Collection<Move> calculateKingCastles(Collection<Move> playerLegalMoves, Collection<Move> opponentLegalMoves);
 	
 	protected Player(Board board, Collection<Move> playerLegalMoves,
 			Collection<Move> opponentLegalMoves ) {
@@ -78,7 +78,7 @@ public abstract class Player {
 			if(!kingAttacks.isEmpty()) {
 				retVal = new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
 			} else {
-				retVal = new MoveTransition(this.board, move, MoveStatus.DONE);
+				retVal = new MoveTransition(transitionBoard, move, MoveStatus.DONE);
 			}
 		}
 		return retVal;

@@ -21,10 +21,10 @@ public class King implements Piece{
 	private boolean isFirstMove;
 	private int cachedHashCode;
 	
-	King(int position, Color color) {
+	King(int position, Color color, boolean isFirstMove) {
 		this.position = position;
 		this.color = color;
-		this.isFirstMove = false;
+		this.isFirstMove = isFirstMove;
 		this.cachedHashCode = this.computeHashCode();
 		
 	}
@@ -39,6 +39,10 @@ public class King implements Piece{
 	
 	public boolean isFirstMove() {
 		return this.isFirstMove;
+	}
+	
+	public void setFirstMove(boolean isFirstMove) {
+		this.isFirstMove = isFirstMove;
 	}
 
 	public Collection<Move> calculateLegalMoves(Board board) {
@@ -59,11 +63,8 @@ public class King implements Piece{
 					Piece attackedPiece = destinationTile.getPiece();
 					if(this.color != attackedPiece.getColor()) {
 						legalMoves.add(MoveFactory.createAttackMove(MoveType.MAJOR_ATTACK_MOVE, board, this, destinationCoordinate, attackedPiece));
-					} else {
-						break;
 					}
 				}
-				break;
 			}
 		}
 		return ImmutableList.copyOf(legalMoves);
@@ -89,6 +90,8 @@ public class King implements Piece{
 			King otherKing = (King) other;
 			if (this.position == otherKing.position && this.color == otherKing.getColor()) {
 				retVal = true;
+			} else {
+				retVal = false;
 			}
 		}
 		return retVal.booleanValue();
@@ -116,6 +119,6 @@ public class King implements Piece{
 	}
 
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor());
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(), false);
 	}
 }
