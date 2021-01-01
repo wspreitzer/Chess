@@ -54,12 +54,12 @@ public class QueenTest {
 
 	@Test
 	public void moveQueenRight() {
-		Assertions.assertEquals(MoveStatus.DONE, doMove(queen.getPosition(), queen.getPosition() + Color.WHITE.getDirection() * 4));
+		Assertions.assertEquals(MoveStatus.DONE, doMove(queen.getPosition(), queen.getPosition() + Color.WHITE.getDirection() * 3));
 	}
 	
 	@Test
 	public void moveQueenLeft() {
-		Assertions.assertEquals(MoveStatus.DONE, doMove(queen.getPosition(), queen.getPosition() + Color.BLACK.getDirection() * 3));
+		Assertions.assertEquals(MoveStatus.DONE, doMove(queen.getPosition(), queen.getPosition() + Color.BLACK.getDirection() * 4));
 	}
 	
 	@Test

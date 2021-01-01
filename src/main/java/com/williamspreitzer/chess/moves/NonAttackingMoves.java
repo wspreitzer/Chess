@@ -32,6 +32,7 @@ public abstract class NonAttackingMoves implements Move {
 	public boolean isCastle() {
 		return false;
 	}
+	
 	public Board execute() {
 		Builder builder = new Builder();
 		for(Piece piece : this.board.getCurrentPlayer().getActivePieces()) {

@@ -33,12 +33,11 @@ public class KingSideCastleMove extends CastleMove {
 	@Override
 	public int getRookDestinationCoordinate() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.rookDestinationCoordinate;
 	}
 
 	@Override
 	public Piece getRook() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.rook;
 	}
 }

@@ -1,7 +1,5 @@
 package com.williamspreitzer.chess.moves;
 
-import java.util.ArrayList;
-
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.Rook;

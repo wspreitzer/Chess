@@ -7,11 +7,11 @@ import com.williamspreitzer.chess.piece.Rook;
 
 public abstract class CastleMove implements Move {
 
-	Board board;
-	Piece movedPiece;
-	Rook rook;
-	int kingDestinationCoordinate;
-	int rookDestinationCoordinate;
+	protected Board board;
+	protected Piece movedPiece;
+	protected Rook rook;
+	protected int kingDestinationCoordinate;
+	protected int rookDestinationCoordinate;
 	
 	
 	public CastleMove(Board board, Piece movedPiece, int kingDestinationCoordinate, Rook rook, int rookDestinatiionCoordinate) {
