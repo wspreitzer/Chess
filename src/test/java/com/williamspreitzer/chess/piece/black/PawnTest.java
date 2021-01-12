@@ -62,7 +62,7 @@ public class PawnTest {
 
 	private MoveStatus doMove(Builder builder, Pawn pawn, Pawn attackedPawn, int offset) {
 		final Board board = builder.build();
-		final Move move = MoveFactory.createMove(board, pawn.getPosition(), pawn.getPosition() + offset);
+		final Move move = MoveFactory.getMove(board, pawn.getPosition(), pawn.getPosition() + offset);
 		final MoveTransition transition = board.getCurrentPlayer().makeMove(move);
 		return transition.getStatus();
 	}

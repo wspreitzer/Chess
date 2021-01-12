@@ -61,7 +61,7 @@ public class MoveFactory {
 		return (CastleMove) retMove;	
 	}
 	
-	public static Move createMove(final Board board, 
+	public static Move getMove(final Board board, 
 			                       final int currentCooridnate,
 			                       final int destinationCooridnate) {
 		Move retVal = null;
@@ -77,7 +77,7 @@ public class MoveFactory {
 		if ( retVal == null ) {
 			retVal = MoveFactory.createNonAttackingMove(MoveType.NULL_MOVE, null, null, -1);
 		}
-		
+			
 		return retVal;
 	}
 }

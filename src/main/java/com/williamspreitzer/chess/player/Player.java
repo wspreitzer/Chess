@@ -12,6 +12,7 @@ import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveStatus;
 import com.williamspreitzer.chess.moves.MoveTransition;
+import com.williamspreitzer.chess.moves.NullMove;
 import com.williamspreitzer.chess.piece.King;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.PieceType;
@@ -65,6 +66,21 @@ public abstract class Player {
 	
 	public boolean isCastled() {
 		return false;
+	}
+	
+	public MoveTransition makeMoves(Move move) {
+		MoveTransition retVal = null;
+		if(!(move instanceof NullMove) ) {
+			if(Player.calculateAttacksOnTile(move.getMovedPiece().getPosition(), move.getBoard().getCurrentPlayer().getOpponent().getPlayerLegalMoves()).isEmpty()) {
+				Board transitionBoard = move.execute();
+				retVal = new MoveTransition(transitionBoard, move, MoveStatus.DONE);
+			} else {
+				retVal = new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
+			}
+		} else {
+			retVal = new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
+		}
+		return retVal;
 	}
 	
 	public MoveTransition makeMove(Move move) {

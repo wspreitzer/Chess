@@ -87,13 +87,13 @@ public class QueenTest {
 		builder.setPiece(queen);
 		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false));
 		board = builder.build();
-		Assertions.assertNull(MoveFactory.createMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("c3")).getBoard());
+		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("c3")).getBoard());
 	}
 	private MoveStatus doMove(int position, int destination) {
 		return board
 				.getCurrentPlayer()
 				.makeMove(MoveFactory
-						.createMove(board, position, destination))
+						.getMove(board, position, destination))
 				.getStatus();
 	}
 }

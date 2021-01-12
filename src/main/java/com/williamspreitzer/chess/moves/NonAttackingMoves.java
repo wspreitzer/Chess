@@ -65,7 +65,7 @@ public abstract class NonAttackingMoves implements Move {
 		Boolean retVal = null;
 		if(this == other ) {
 			retVal = true;
-		} else if( ! ( other instanceof NonAttackingMoves)) {
+		} else if( ! ( other instanceof NonAttackingMoves) || ( other instanceof NullMove)) {
 			retVal = false;
 		} else {
 			final NonAttackingMoves otherMove = (NonAttackingMoves ) other;

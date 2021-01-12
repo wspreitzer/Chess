@@ -43,7 +43,7 @@ public class KingCastleTest {
 		Assertions.assertTrue(makeMove(GameUtils.getCoordinateAtPosition("d2"), GameUtils.getCoordinateAtPosition("d4")).isDone());
 		
 		//Start of castle move
-		final Move castleMove = MoveFactory.createMove(board, GameUtils.getCoordinateAtPosition("e8"), GameUtils.getCoordinateAtPosition("g8"));
+		final Move castleMove = MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("e8"), GameUtils.getCoordinateAtPosition("g8"));
 		Assertions.assertTrue(board.getCurrentPlayer().getPlayerLegalMoves().contains(castleMove)); 
 		final MoveTransition mt = board.getCurrentPlayer().makeMove(castleMove);
 		Assertions.assertTrue(mt.getStatus().isDone());
@@ -79,7 +79,7 @@ public class KingCastleTest {
 		Assertions.assertTrue(makeMove(GameUtils.getCoordinateAtPosition("e2"), GameUtils.getCoordinateAtPosition("e4")).isDone());
 		
 		//Start of castle move
-		final Move castleMove = MoveFactory.createMove(board, GameUtils.getCoordinateAtPosition("e8"), GameUtils.getCoordinateAtPosition("c8"));
+		final Move castleMove = MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("e8"), GameUtils.getCoordinateAtPosition("c8"));
 		Assertions.assertTrue(board.getCurrentPlayer().getPlayerLegalMoves().contains(castleMove)); 
 		final MoveTransition mt = board.getCurrentPlayer().makeMove(castleMove);
 		Assertions.assertTrue(mt.getStatus().isDone());
@@ -87,7 +87,7 @@ public class KingCastleTest {
 	
 	private MoveStatus makeMove(int position, int destination) {
 		final MoveTransition transition = board.getCurrentPlayer()
-				.makeMove(MoveFactory.createMove(board, position, destination));
+				.makeMove(MoveFactory.getMove(board, position, destination));
 		board = transition.getBoard();
 		return transition.getStatus();
 	}

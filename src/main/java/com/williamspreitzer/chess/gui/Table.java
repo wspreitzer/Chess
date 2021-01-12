@@ -5,11 +5,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import com.google.common.collect.Lists;
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Tile;
 import com.williamspreitzer.chess.board.utils.GameUtils;
@@ -36,9 +40,11 @@ import com.williamspreitzer.chess.piece.Piece;
 public class Table {
 	
 	private final JFrame gameFrame;
-	private JPanel boardPanel;
+	private final JPanel boardPanel;
 	private Board chessBoard;
+	
 	private Tile sourceTile;
+	private BoardDirection boardDirection;
 	
 	private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(600,600);
 	private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400,350);
@@ -53,13 +59,16 @@ public class Table {
 		this.gameFrame.setJMenuBar(this.createJMenuBar());
 		this.chessBoard = Board.createStandardBoard();
 		this.boardPanel = new BoardPanel();
+		this.boardDirection = BoardDirection.NORMAL;
 		this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
 		this.gameFrame.setVisible(true);
 	}
 
 	private JMenuBar createJMenuBar() {
 		final JMenuBar tableMenuBar = new JMenuBar();
+		tableMenuBar.setBackground(LIGHT_TILE_COLOR);
 		tableMenuBar.add(createFileMenu());
+		tableMenuBar.add(createPreferenceMenu());
 		tableMenuBar.add(createHelpMenu());
 		tableMenuBar.add(createAboutMenu());
 		tableMenuBar.add(createExitMenu());
@@ -68,6 +77,7 @@ public class Table {
 
 	private JMenu createFileMenu() {
 		final JMenu fileMenu = new JMenu("File");
+		fileMenu.setMnemonic(KeyEvent.VK_F);
 		
 		final JMenuItem openPGN = new JMenuItem("Load PGN File");
 		openPGN.addActionListener(a -> System.out.println("open up that pgn file!"));
@@ -77,6 +87,7 @@ public class Table {
 	
 	private JMenu createHelpMenu() {
 		final JMenu helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic(KeyEvent.VK_H);
 		
 		final JMenuItem chess = new JMenuItem("About Chess");
 		chess.addActionListener(a -> System.out.println("How to play chess"));
@@ -87,13 +98,51 @@ public class Table {
 		return helpMenu;
 	}
 	
+	private JMenu createPreferenceMenu() {
+		final JMenu preferenceMenu = new JMenu("Preferences");
+		preferenceMenu.setMnemonic(KeyEvent.VK_P);
+		
+		final JMenuItem FlipBoardMenuItem = new JMenuItem("Flip Board");
+		final JMenu colorMenu = new JMenu("Color");
+		final JRadioButtonMenuItem black = new JRadioButtonMenuItem("Black");
+		final JRadioButtonMenuItem white = new JRadioButtonMenuItem("White", true);
+		
+		FlipBoardMenuItem.addActionListener(a -> {
+			boardDirection = boardDirection.opposite();
+			((BoardPanel) boardPanel).drawBoard(chessBoard);
+		});
+			
+		black.addActionListener(a -> {
+			System.out.println("Black was clicked");
+		});
+		
+		white.addActionListener(a -> {
+			System.out.println("White was clicked");
+		});
+		
+		colorMenu.add(white);
+		colorMenu.add(black);
+		preferenceMenu.add(FlipBoardMenuItem);
+		preferenceMenu.add(colorMenu);
+		return preferenceMenu;
+	}
+	
 	private JMenu createAboutMenu() {
 		final JMenu aboutMenu = new JMenu("About");
+		aboutMenu.setMnemonic(KeyEvent.VK_A);
 		final JMenuItem about = new JMenuItem("About JChess");
-		final JMenuItem updates = new JMenuItem("Check for Updates");
+		about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
 		
-		about.addActionListener(a -> System.out.println("this is about"));
-		updates.addActionListener(a -> System.out.println("this is updates"));
+		final JMenuItem updates = new JMenuItem("Check for Updates");
+		updates.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
+		
+		about.addActionListener(a -> {
+			System.out.println("this is about");
+		});
+		updates.addActionListener(a -> {
+			System.out.println("this is updates");
+		});
+
 		aboutMenu.add(about);
 		aboutMenu.add(updates);
 		return aboutMenu;
@@ -101,9 +150,14 @@ public class Table {
 	
 	private JMenu createExitMenu() {
 		JMenu exitMenu = new JMenu("Exit");
-		JMenuItem exit = new JMenuItem("Save and Exit");
-		exit.addActionListener(a -> System.exit(0));
+		exitMenu.setMnemonic(KeyEvent.VK_X);
+		JMenuItem exit = new JMenuItem("Exit");
+		JMenuItem saveAndExit = new JMenuItem("Save and Exit");
+		
+		exit.addActionListener(e -> System.exit(0));
+		saveAndExit.addActionListener(e -> System.out.println("Save and Exit was clicked"));
 		exitMenu.add(exit);
+		exitMenu.add(saveAndExit);
 		return exitMenu;
 	}
 	
@@ -135,7 +189,7 @@ public class Table {
 		}
 	}
 	
-	private class TilePanel extends JPanel {
+	public class TilePanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 		private final int tileId;
 		private Piece humanMovedPiece;
@@ -159,27 +213,30 @@ public class Table {
 						}
 					} else {
 						destinationTile = chessBoard.getTile(tileId);
-						final Move move = MoveFactory.createMove(chessBoard, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
+						final Move move = MoveFactory.getMove(chessBoard, sourceTile.getTileCoordinate(), destinationTile.getTileCoordinate());
 						final MoveTransition transition = chessBoard.getCurrentPlayer().makeMove(move);
 						switch(transition.getStatus()) {
 						case DONE:
 							chessBoard = transition.getBoard();
 							break;
 						case ILLEGAL_MOVE:
+							DialogFactory.createDialogBox(DialogType.ILLEGAL_MOVE, "This is an illegal move.  Try again.");
 							break;
 						case LEAVES_PLAYER_IN_CHECK:
+							DialogFactory.createDialogBox(DialogType.LEAVES_PLAYER_IN_CHECK,"You cannot make this move because it will leave you in check");
 							break;
 						}
 						sourceTile = null;
 						destinationTile = null;
 						humanMovedPiece = null;
-						
 					}
 				}
+				
 				SwingUtilities.invokeLater(() -> {
 					boardPanel.drawBoard(chessBoard);
 				});
 			 }));
+			
 			validate();
 		}
 		
@@ -201,9 +258,9 @@ public class Table {
 			repaint();
 		}
 		
-		private String iconName(Board board, URL path) {
+		private String iconName(Board board) {
 			StringBuffer sb = new StringBuffer();
-			sb.append(path.getPath());
+			sb.append(TilePanel.class.getResource("../../../../art/simple").getPath());
 			sb.append("/");
 			sb.append(board.getTile(this.tileId).getPiece().getColor().toString().substring(0,1));
 			sb.append(board.getTile(this.tileId).getPiece().toString());
@@ -215,9 +272,8 @@ public class Table {
 			this.removeAll();
 			if(board.getTile(this.tileId).isTileOccupied()) {
 				BufferedImage image = null;
-				URL path = TilePanel.class.getResource("../../../../art/simple");
 				try {
-					image = ImageIO.read(new File(this.iconName(board, path)));
+					image = ImageIO.read(new File(this.iconName(board)));
 					add(new JLabel(new ImageIcon(image)));
 				} catch (FileNotFoundException fnfe) {
 					fnfe.printStackTrace();
@@ -226,5 +282,40 @@ public class Table {
 				}
 			}
 		}
+	}
+	
+	public enum BoardDirection {
+		NORMAL {
+			@Override
+			List<TilePanel> traverse(List<TilePanel> boardTiles) {
+				// TODO Auto-generated method stub
+				return boardTiles;
+			}
+
+			@Override
+			BoardDirection opposite() {
+				// TODO Auto-generated method stub
+				return FLIPPED;
+			}
+			
+		},
+		FLIPPED {
+
+			@Override
+			List<TilePanel> traverse(List<TilePanel> boardTiles) {
+				// TODO Auto-generated method stub
+				return Lists.reverse(boardTiles);
+			}
+
+			@Override
+			BoardDirection opposite() {
+				// TODO Auto-generated method stub
+				return NORMAL;
+			}
+			
+		};
+		
+		abstract List<TilePanel> traverse(final List<TilePanel> boardTiles);
+		abstract BoardDirection opposite();
 	}
 }

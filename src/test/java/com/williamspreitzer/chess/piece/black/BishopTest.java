@@ -58,11 +58,11 @@ public class BishopTest {
 		builder.setPiece(bishop);
 		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false));
 		board = builder.build();
-		Assertions.assertNull(MoveFactory.createMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("c3")).getBoard());
+		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("c3")).getBoard());
 	}
 	
 	private MoveStatus doMove(int position, int destination) {
-		final Move move = MoveFactory.createMove(board, position, destination);
+		final Move move = MoveFactory.getMove(board, position, destination);
 		return board.getCurrentPlayer().makeMove(move).getStatus();
 	}
 

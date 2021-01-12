@@ -68,7 +68,7 @@ public class KingTest {
 	
 	private MoveStatus doMove(Builder builder, King king, int offSet) {
 		Board board = builder.build();
-		final Move move = MoveFactory.createMove(board, king.getPosition(), king.getPosition() + offSet);
+		final Move move = MoveFactory.getMove(board, king.getPosition(), king.getPosition() + offSet);
 		final MoveTransition transition = board.getCurrentPlayer().makeMove(move);
 		return transition.getStatus();
 	}

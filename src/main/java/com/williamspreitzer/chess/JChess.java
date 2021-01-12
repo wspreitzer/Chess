@@ -1,13 +1,16 @@
 package com.williamspreitzer.chess;
 
-import com.williamspreitzer.chess.board.Board;
-import com.williamspreitzer.chess.gui.Table;
+import com.williamspreitzer.chess.gui.DialogBox;
+import com.williamspreitzer.chess.sync.Worker;
 
 public class JChess {
 
-	@SuppressWarnings("unused")
+	static DialogBox box;
+	static boolean isReady;
+
 	public static void main(String[] args) {
-		Board board = Board.createStandardBoard();
-		Table table = new Table();
+		Worker worker = new Worker();
+		worker.checkForUpdate();
+		worker.runGui();
 	}
 }

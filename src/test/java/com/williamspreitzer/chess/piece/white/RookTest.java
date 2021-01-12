@@ -71,10 +71,10 @@ public class RookTest {
 		builder.setPiece(rook);
 		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false));
 		board = builder.build();
-		Assertions.assertNull(MoveFactory.createMove(board, GameUtils.getCoordinateAtPosition("d8"), GameUtils.getCoordinateAtPosition("d3")).getBoard());
+		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("d8"), GameUtils.getCoordinateAtPosition("d3")).getBoard());
 	}
 	private MoveStatus doMove(int position, int destination) {
-		final Move move = MoveFactory.createMove(board, position, destination);
+		final Move move = MoveFactory.getMove(board, position, destination);
 		return board.getCurrentPlayer().makeMove(move).getStatus();
 	}
 }
