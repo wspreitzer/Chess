@@ -67,6 +67,7 @@ public class Pawn implements Piece{
 					}
 					break;
 				default:
+					continue;
 				}
 			} else {
 				if( this.color != destinationTile.getPiece().getColor()) {
@@ -147,6 +148,12 @@ public class Pawn implements Piece{
 		result = 31 * result + this.position;
 		result = 31 * result + (isFirstMove ? 1 : 0);
 		return result;
+	}
+
+	@Override
+	public Integer getPieceValue() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

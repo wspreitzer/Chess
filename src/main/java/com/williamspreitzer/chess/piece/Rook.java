@@ -125,4 +125,10 @@ public class Rook implements Piece{
 	private boolean isEighthColumnExclusion(int currentPosition, int candidateOffset) {
 		return GameUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == 1);
 	}
+
+	@Override
+	public Integer getPieceValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -124,4 +124,10 @@ public class Queen implements Piece {
 	private boolean isEighthColumnExclusion(int currentPosition, int candidateOffset) {
 		return GameUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == -7 || candidateOffset == 1 || candidateOffset == 9 );
 	}
+
+	@Override
+	public Integer getPieceValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.williamspreitzer.chess.board.Board;
+import com.williamspreitzer.chess.gui.Table.TilePanel;
 import com.williamspreitzer.chess.moves.Move;
+import com.williamspreitzer.chess.piece.Piece;
 
 public class GameUtils {
 
@@ -109,5 +111,21 @@ public class GameUtils {
 				"a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3",
 				"a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
 				"a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"));
+	}
+	
+	public static String iconName(Board board, Object obj) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(GameUtils.class.getResource("../../../../art/simple").getPath());
+		sb.append("/");
+		if(obj instanceof Integer) {
+			sb.append(board.getTile(((Integer) obj).intValue()).getPiece().getColor().toString().substring(0, 1));
+			sb.append(board.getTile(((Integer) obj).intValue()).getPiece().toString());
+		} else if (obj instanceof Piece ){
+			Piece piece = (Piece) obj;
+			sb.append(piece.getColor().toString().substring(0,1));
+			sb.append(piece.toString());
+		}
+		sb.append(".gif");
+		return sb.toString();
 	}
 }

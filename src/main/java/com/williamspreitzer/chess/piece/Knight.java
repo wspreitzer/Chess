@@ -132,4 +132,10 @@ public class Knight implements Piece {
 	public int getPosition() {
 		return this.position;
 	}
+
+	@Override
+	public Integer getPieceValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

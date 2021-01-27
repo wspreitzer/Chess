@@ -78,4 +78,10 @@ public class EnPassantPawn implements Piece{
 		result = 31 * result + (isFirstMove ? 1 : 0);
 		return result;
 	}
+
+	@Override
+	public Integer getPieceValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

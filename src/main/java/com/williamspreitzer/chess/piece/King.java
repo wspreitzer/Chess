@@ -121,4 +121,10 @@ public class King implements Piece{
 	public Piece movePiece(Move move) {
 		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(), false);
 	}
+
+	@Override
+	public Integer getPieceValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

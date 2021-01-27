@@ -21,7 +21,6 @@ public class Worker {
 		int returnCode = AutoUpdate.getUpdateReturnCode("https://api.github.com", "chess", getVersion());
 		switch (returnCode) {
 		case 0:
-			box = DialogFactory.createDialogBox(DialogType.VERSION_UP_TO_DATE, "Your version is up to date.");
 			break;
 		case 1:
 			box = DialogFactory.createDialogBox(DialogType.VERSION_NEEDS_UPDATE,
