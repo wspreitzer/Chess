@@ -38,6 +38,7 @@ import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.gui.listeners.MouseClicked;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
+import com.williamspreitzer.chess.moves.MoveLog;
 import com.williamspreitzer.chess.moves.MoveTransition;
 import com.williamspreitzer.chess.piece.Piece;
 
@@ -45,11 +46,14 @@ public class Table {
 
 	private final JFrame gameFrame;
 	private final JPanel boardPanel;
+	private final MoveLog moveLog;
 	private Board chessBoard;
 
 	private Tile sourceTile;
 	private BoardDirection boardDirection;
 	private boolean highlightLegalMoves;
+	private final GameHistoryPanel historyPanel;
+	private final TakenPiecesPanel takePiecesPanel;
 	private static final Dimension OUTER_FRAME_DIMENSION = new Dimension(600, 600);
 	private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
 	private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
@@ -62,9 +66,14 @@ public class Table {
 		this.gameFrame.setLayout(new BorderLayout());
 		this.gameFrame.setJMenuBar(this.createJMenuBar());
 		this.chessBoard = Board.createStandardBoard();
+		this.historyPanel = new GameHistoryPanel();
+		this.takePiecesPanel = new TakenPiecesPanel();
 		this.boardPanel = new BoardPanel();
+		this.moveLog = new MoveLog();
 		this.boardDirection = BoardDirection.NORMAL;
+		this.gameFrame.add(this.takePiecesPanel, BorderLayout.WEST);
 		this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
+		this.gameFrame.add(this.historyPanel, BorderLayout.EAST);
 		this.highlightLegalMoves = false;
 		this.gameFrame.setVisible(true);
 		center(gameFrame);
@@ -243,6 +252,7 @@ public class Table {
 						switch (transition.getStatus()) {
 						case DONE:
 							chessBoard = transition.getBoard();
+							moveLog.addMove(move);
 							break;
 						case ILLEGAL_MOVE:
 							DialogFactory.createDialogBox(DialogType.ILLEGAL_MOVE,
@@ -260,6 +270,8 @@ public class Table {
 				}
 
 				SwingUtilities.invokeLater(() -> {
+					historyPanel.redo(chessBoard, moveLog);
+					takePiecesPanel.redo(moveLog);
 					boardPanel.drawBoard(chessBoard, humanMovedPiece);
 				});
 			}));

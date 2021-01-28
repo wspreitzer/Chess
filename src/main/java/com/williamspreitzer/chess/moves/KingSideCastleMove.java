@@ -40,4 +40,9 @@ public class KingSideCastleMove extends CastleMove {
 	public Piece getRook() {
 		return this.rook;
 	}
+	
+	@Override
+	public String toString() {
+		return "O-O";
+	}
 }

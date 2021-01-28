@@ -24,12 +24,13 @@ import com.williamspreitzer.chess.moves.MoveLog;
 import com.williamspreitzer.chess.piece.Piece;
 
 public class TakenPiecesPanel extends JPanel {
-
 	private final JPanel northPanel;
 	private final JPanel southPanel;
 	private final static EtchedBorder PANEL_BORDER = new EtchedBorder(EtchedBorder.RAISED);
 	private final static Color PANEL_COLOR = Color.decode("0xFDFE6");
 	private final static Dimension TAKEN_PIECES_DIMENSION = new Dimension(40, 80);
+
+	private static final long serialVersionUID = 1L;
 
 	public TakenPiecesPanel() {
 		super(new BorderLayout());

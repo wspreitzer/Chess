@@ -2,6 +2,7 @@ package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Board.Builder;
+import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.piece.Piece;
 
 public abstract class NonAttackingMoves implements Move {
@@ -78,5 +79,14 @@ public abstract class NonAttackingMoves implements Move {
 			}
 		}
 		return retVal.booleanValue();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(GameUtils.ALGEBRAIC_NOTATION.get(movedPiece.getPosition()));
+		sb.append("-");
+		sb.append(GameUtils.ALGEBRAIC_NOTATION.get(destinationCoordinate));
+		return sb.toString();
 	}
 }

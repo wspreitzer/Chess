@@ -15,6 +15,7 @@ public class GUITest {
 	DialogBox box;
 	JLabel input;
 	String testString;
+	
 	@BeforeEach
 	private void setup() {
 	}
@@ -39,6 +40,26 @@ public class GUITest {
 			input = (JLabel) TestUtils.getChildNamed(box, "frame");
 			//assertNotNull(input);
 			//assertEquals(testString, input.getText());
+			break;
+		case VERSION_UP_TO_DATE:
+			box = DialogFactory.createDialogBox(type, "");
+			testString = "";
+			assertNotNull(box);
+			break;
+		case CATOSTRAPHIC_ERROR_OCCURED:
+			box = DialogFactory.createDialogBox(type, "");
+			testString = "";
+			assertNotNull(box);
+			break;
+		case VERSION_NEEDS_UPDATE:
+			box = DialogFactory.createDialogBox(type, "");
+			testString = "";
+			assertNotNull(box);
+			break;
+		case NO_INTERNET_CONNECTION:
+			box = DialogFactory.createDialogBox(type, "");
+			testString = "";
+			assertNotNull(box);
 			break;
 		}
 	}

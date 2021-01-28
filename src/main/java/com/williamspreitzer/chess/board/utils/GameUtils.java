@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.williamspreitzer.chess.board.Board;
-import com.williamspreitzer.chess.gui.Table.TilePanel;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.piece.Piece;
 
@@ -115,7 +114,7 @@ public class GameUtils {
 	
 	public static String iconName(Board board, Object obj) {
 		StringBuffer sb = new StringBuffer();
-		sb.append(GameUtils.class.getResource("../../../../art/simple").getPath());
+		sb.append(GameUtils.class.getResource("../../../../../art/simple").getPath());
 		sb.append("/");
 		if(obj instanceof Integer) {
 			sb.append(board.getTile(((Integer) obj).intValue()).getPiece().getColor().toString().substring(0, 1));
@@ -127,5 +126,17 @@ public class GameUtils {
 		}
 		sb.append(".gif");
 		return sb.toString();
+	}
+	
+	public static String calculateCheckAndCheckmateHash(final Board board) {
+		String retVal;
+		if(board.getCurrentPlayer().isInCheckMate()) {
+			retVal = "#";
+		} else if (board.getCurrentPlayer().isInCheck()) {
+			retVal = "+";
+		} else {
+			retVal = "";
+		}
+		return retVal;
 	}
 }

@@ -82,6 +82,6 @@ public class EnPassantPawn implements Piece{
 	@Override
 	public Integer getPieceValue() {
 		// TODO Auto-generated method stub
-		return 0;
+		return PieceType.EnPassantPawn.getPieceValue();
 	}
 }

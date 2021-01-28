@@ -2,6 +2,7 @@ package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Board.Builder;
+import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.piece.Pawn;
 import com.williamspreitzer.chess.piece.Piece;
 
@@ -27,6 +28,14 @@ public class PawnJumpMove extends NonAttackingMoves {
 		return this.movedPiece;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(GameUtils.ALGEBRAIC_NOTATION.get(movedPiece.getPosition()));
+		sb.append("-");
+		sb.append(GameUtils.ALGEBRAIC_NOTATION.get(destinationCoordinate));
+		return sb.toString();
+	}
 	@Override
 	public Board execute() {
 		final Builder builder = new Builder();

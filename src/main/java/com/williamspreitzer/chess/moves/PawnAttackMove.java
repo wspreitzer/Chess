@@ -1,6 +1,7 @@
 package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
+import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.piece.Piece;
 
 public class PawnAttackMove extends AttackMove {
@@ -29,6 +30,15 @@ public class PawnAttackMove extends AttackMove {
 
 	@Override
 	public Piece getAttackedPiece() {
-		return this.getAttackedPiece();
+		return this.attackedPiece;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(GameUtils.ALGEBRAIC_NOTATION.get(movedPiece.getPosition()));
+		sb.append("x");
+		sb.append(GameUtils.ALGEBRAIC_NOTATION.get(destinationCoordinate));
+		return sb.toString();
 	}
 }

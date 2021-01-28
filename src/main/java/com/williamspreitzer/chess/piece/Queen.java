@@ -128,6 +128,6 @@ public class Queen implements Piece {
 	@Override
 	public Integer getPieceValue() {
 		// TODO Auto-generated method stub
-		return 0;
+		return PieceType.QUEEN.getPieceValue();
 	}
 }

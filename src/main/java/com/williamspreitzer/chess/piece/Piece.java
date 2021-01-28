@@ -14,5 +14,5 @@ public interface Piece {
 	abstract boolean isFirstMove();
 	abstract void setFirstMove(boolean firstMove);
 	public abstract Piece movePiece(Move move);
-	abstract Integer getPieceValue();
+	public abstract Integer getPieceValue();
 }

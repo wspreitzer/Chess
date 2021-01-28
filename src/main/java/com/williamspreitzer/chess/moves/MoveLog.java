@@ -7,7 +7,7 @@ public class MoveLog {
 
 	private final List<Move> moves;
 	
-	MoveLog() {
+	public MoveLog() {
 		this.moves = new ArrayList<Move>();
 	}
 	

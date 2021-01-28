@@ -127,6 +127,6 @@ public class Bishop implements Piece {
 	@Override
 	public Integer getPieceValue() {
 		// TODO Auto-generated method stub
-		return 0;
+		return PieceType.BISHOP.getPieceValue();
 	}
 }
