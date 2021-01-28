@@ -58,6 +58,7 @@ public class Bishop implements Piece {
 						Piece destinationPiece = destinationTile.getPiece();
 						if(this.color != destinationPiece.getColor()) {
 							legalMoves.add(MoveFactory.createAttackMove(MoveType.MAJOR_ATTACK_MOVE, board, this, destinationCoordinate, destinationPiece));
+							break;
 						} else {
 							break;
 						}

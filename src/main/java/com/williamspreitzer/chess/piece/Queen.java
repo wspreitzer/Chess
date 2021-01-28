@@ -63,6 +63,7 @@ public class Queen implements Piece {
 						Piece attackedPiece = destinationTile.getPiece();
 						if(this.color != attackedPiece.getColor()) {
 							legalMoves.add(MoveFactory.createAttackMove(MoveType.MAJOR_ATTACK_MOVE, board, this, destinationCoordinate, attackedPiece));
+							break;
 						} else {
 							break;
 						}

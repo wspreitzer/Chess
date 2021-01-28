@@ -24,4 +24,9 @@ public class MajorMove extends NonAttackingMoves {
 	public Piece getMovedPiece() {
 		return this.movedPiece;
 	}
+	
+	@Override
+	public boolean equals(final Object other) {
+		return this == other || other instanceof MajorMove && super.equals(other);
+	}
 }

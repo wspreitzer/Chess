@@ -89,6 +89,16 @@ public class QueenTest {
 		board = builder.build();
 		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("c3")).getBoard());
 	}
+	
+	@Test
+	public void testTopQueenWithBlackPieceInWay() {
+		queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("h8"), Color.WHITE, false);
+		builder.setPiece(queen);
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("h3"), Color.BLACK, false));
+		board = builder.build();
+		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("h2")).getBoard());
+	}
+	
 	private MoveStatus doMove(int position, int destination) {
 		return board
 				.getCurrentPlayer()

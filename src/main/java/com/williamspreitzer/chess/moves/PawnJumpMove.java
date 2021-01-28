@@ -29,13 +29,10 @@ public class PawnJumpMove extends NonAttackingMoves {
 	}
 	
 	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(GameUtils.ALGEBRAIC_NOTATION.get(movedPiece.getPosition()));
-		sb.append("-");
-		sb.append(GameUtils.ALGEBRAIC_NOTATION.get(destinationCoordinate));
-		return sb.toString();
+	public boolean equals(final Object other) {
+		return this == other || other instanceof PawnJumpMove && super.equals(other);
 	}
+	
 	@Override
 	public Board execute() {
 		final Builder builder = new Builder();

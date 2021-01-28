@@ -54,7 +54,7 @@ public abstract class CastleMove implements Move {
 		this.movedPiece.setFirstMove(false);
 		this.rook.setFirstMove(false);
 		builder.setPiece(this.movedPiece.movePiece(this));
-		builder.setPiece(this.rook.movePiece(this));
+		builder.setPiece(this.rook.movePiece(MoveFactory.createNonAttackingMove(MoveType.MAJOR_MOVE, board, this.rook, rookDestinationCoordinate)));
 		builder.setMoveMaker(this.board.getCurrentPlayer().getOpponent().getColor());
 		return builder.build();
 	}
