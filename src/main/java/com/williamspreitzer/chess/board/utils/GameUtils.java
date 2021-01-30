@@ -13,28 +13,29 @@ import com.williamspreitzer.chess.piece.Piece;
 
 public class GameUtils {
 
-	public static final boolean[] FIRST_COLUMN = initColumn(0);
-	public static final boolean[] SECOND_COLUMN = initColumn(1);
-	public static final boolean[] THIRD_COLUMN = initColumn(2);
-	public static final boolean[] FOURTH_COLUMN = initColumn(3);
-	public static final boolean[] FIFTH_COLUMN = initColumn(4);
-	public static final boolean[] SIXTH_COLUMN = initColumn(5);
-	public static final boolean[] SEVENTH_COLUMN = initColumn(6);
-	public static final boolean[] EIGHTH_COLUMN = initColumn(7);
+	public static final List<Boolean> FIRST_COLUMN = initColumn(0);
+	public static final List<Boolean> SECOND_COLUMN = initColumn(1);
+	public static final List<Boolean> THIRD_COLUMN = initColumn(2);
+	public static final List<Boolean> FOURTH_COLUMN = initColumn(3);
+	public static final List<Boolean> FIFTH_COLUMN = initColumn(4);
+	public static final List<Boolean> SIXTH_COLUMN = initColumn(5);
+	public static final List<Boolean> SEVENTH_COLUMN = initColumn(6);
+	public static final List<Boolean> EIGHTH_COLUMN = initColumn(7);
 	
-	public static final boolean[] FIRST_ROW = initRow(0);
-	public static final boolean[] SECOND_ROW = initRow(8);
-	public static final boolean[] THIRD_ROW = initRow(16);
-	public static final boolean[] FOURTH_ROW = initRow(24);
-	public static final boolean[] FIFTH_ROW = initRow(32);
-	public static final boolean[] SIXTH_ROW = initRow(40);
-	public static final boolean[] SEVENTH_ROW = initRow(48);
-	public static final boolean[] EIGHTH_ROW = initRow(56);
+	public static final List<Boolean> EIGHTH_RANK = initRank(0);
+	public static final List<Boolean> SEVENTH_RANK = initRank(8);
+	public static final List<Boolean> SIXTH_RANK = initRank(16);
+	public static final List<Boolean> FIFTH_RANK = initRank(24);
+	public static final List<Boolean> FOURTH_RANK = initRank(32);
+	public static final List<Boolean> THIRD_RANK = initRank(40);
+	public static final List<Boolean> SECOND_RANK = initRank(48);
+	public static final List<Boolean> FIRST_RANK = initRank(56);
 	public final static List<String> ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
 	public static final Map<String, Integer> POSITION_TO_COORDINATE = initializePositionToCoordinateMap();
 	public static final int NUM_TILES = 64;
 	public static final int NUM_TILES_PER_ROW = 8;
 	public static final int START_TILE_INDEX = 0;
+	
 	private GameUtils() {
 		throw new RuntimeException("You cannot instatiate me!");
 	}
@@ -43,23 +44,29 @@ public class GameUtils {
 		return coordinate >= START_TILE_INDEX && coordinate < NUM_TILES;
 	}
 	
-	private static boolean[] initColumn(int colNumber) {
-		boolean[] column = new boolean[NUM_TILES];
+	private static List<Boolean> initColumn(int colNumber) {
+		final Boolean[] column = new Boolean[NUM_TILES];
+		for(int i = 0; i < column.length; i++) {
+			column[i] = false;
+		}
 		do {
 			column[colNumber] = true;
 			colNumber += NUM_TILES_PER_ROW;
 		} while (colNumber < NUM_TILES );
-		return column;
+		return Collections.unmodifiableList(Arrays.asList(column));
 	}
 	
-	private static boolean[] initRow(int rowNumber) {
-		boolean[] row = new boolean[NUM_TILES];
+	private static List<Boolean> initRank(int rankNumber) {
+		Boolean[] row = new Boolean[NUM_TILES];
+		for(int i = 0; i < row.length; i++) {
+			row[i] = false;
+		}
 		do {
-			row[rowNumber] = true;
-			rowNumber++;
-		} while (rowNumber % NUM_TILES_PER_ROW != 0);
+			row[rankNumber] = true;
+			rankNumber++;
+		} while (rankNumber % NUM_TILES_PER_ROW != 0);
 		
-		return row;
+		return Collections.unmodifiableList(Arrays.asList(row));
 	}
 	
 	public static boolean isTilesEmpty(Board board, int ...coordinates) {

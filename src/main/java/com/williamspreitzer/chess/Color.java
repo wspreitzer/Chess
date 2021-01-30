@@ -1,5 +1,6 @@
 package com.williamspreitzer.chess;
 
+import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.player.BlackPlayer;
 import com.williamspreitzer.chess.player.Player;
 import com.williamspreitzer.chess.player.WhitePlayer;
@@ -9,6 +10,11 @@ public enum Color {
 		@Override
 		public int getDirection() {
 			return 1;
+		}
+		
+		@Override
+		public int getOppositeDirection() {
+			return -1;
 		}
 		
 		@Override
@@ -23,11 +29,23 @@ public enum Color {
 		public boolean isWhite() {
 			return false;
 		}
+		
+		@Override
+		public boolean isPawnPromotionTile(int position) {
+			return GameUtils.FIRST_RANK.get(position);
+		}
+		
+		
 	},
 	WHITE {
 		@Override
 		public int getDirection() {
 			return -1;
+		}
+		
+		@Override
+		public int getOppositeDirection() {
+			return 1;
 		}
 		
 		@Override
@@ -42,10 +60,17 @@ public enum Color {
 		public boolean isBlack() {
 			return false;
 		}
+
+		@Override
+		public boolean isPawnPromotionTile(int position) {
+			return GameUtils.EIGHTH_RANK.get(position);
+		}
 	};
 	
+	public abstract int getOppositeDirection();
 	public abstract int getDirection();
 	public abstract boolean isBlack();
 	public abstract boolean isWhite();
 	public abstract Player choosePlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer);
+	public abstract boolean isPawnPromotionTile(int position);
 }

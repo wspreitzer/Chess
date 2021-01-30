@@ -109,20 +109,20 @@ public class Knight implements Piece {
 	}
 	
 	private boolean isFirstColumnExclusion(int currentPosition, int candidateOffset) {
-		return GameUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -17 || candidateOffset == -10 ||
+		return GameUtils.FIRST_COLUMN.get(currentPosition) && (candidateOffset == -17 || candidateOffset == -10 ||
 		candidateOffset == 6 || candidateOffset == 15);
 	}
 	
 	private boolean isSecondColumnExclusion(int currentPosition, int candidateOffset) {
-		return GameUtils.SECOND_COLUMN[currentPosition] && (candidateOffset == -10 || candidateOffset == 6);
+		return GameUtils.SECOND_COLUMN.get(currentPosition) && (candidateOffset == -10 || candidateOffset == 6);
 	}
 	
 	private boolean isSeventhColumnExclusion(int currentPosition, int candidateOffset) {
-		return GameUtils.SEVENTH_COLUMN[currentPosition] && (candidateOffset == -6 || candidateOffset == 10);
+		return GameUtils.SEVENTH_COLUMN.get(currentPosition) && (candidateOffset == -6 || candidateOffset == 10);
 	}
 	
 	private boolean isEighthColumnExclusion(int currentPosition, int candidateOffset) {
-		return GameUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == -15 || candidateOffset == -6 || candidateOffset == 10 || candidateOffset == 17);
+		return GameUtils.EIGHTH_COLUMN.get(currentPosition) && (candidateOffset == -15 || candidateOffset == -6 || candidateOffset == 10 || candidateOffset == 17);
 	}
 	
 	public Color getColor() {

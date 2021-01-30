@@ -280,8 +280,8 @@ public class Table {
 		}
 
 		private void assignTileColor() {
-			if (GameUtils.FIRST_ROW[this.tileId] || GameUtils.THIRD_ROW[this.tileId] || GameUtils.FIFTH_ROW[this.tileId]
-					|| GameUtils.SEVENTH_ROW[this.tileId]) {
+			if (GameUtils.EIGHTH_RANK.get(tileId) || GameUtils.SIXTH_RANK.get(tileId) || GameUtils.FOURTH_RANK.get(tileId)
+					|| GameUtils.SECOND_RANK.get(tileId)) {
 				setBackground(this.tileId % 2 == 0 ? LIGHT_TILE_COLOR : DARK_TILE_COLOR);
 			} else {
 				setBackground(this.tileId % 2 == 0 ? DARK_TILE_COLOR : LIGHT_TILE_COLOR);

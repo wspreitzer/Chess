@@ -120,11 +120,11 @@ public class Rook implements Piece{
 	}
 	
 	private boolean isFirstColumnExclusion(int currentPosition, int candidateOffset) {
-		return GameUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -1);
+		return GameUtils.FIRST_COLUMN.get(currentPosition) && (candidateOffset == -1);
 	}
 	
 	private boolean isEighthColumnExclusion(int currentPosition, int candidateOffset) {
-		return GameUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == 1);
+		return GameUtils.EIGHTH_COLUMN.get(currentPosition) && (candidateOffset == 1);
 	}
 
 	@Override

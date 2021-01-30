@@ -13,21 +13,21 @@ import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveType;
 
-public class Pawn implements Piece{
+public class Pawn implements Piece {
 
-	private final static int[] MOVE_COORDINATES = {7, 8, 9, 16};
+	private final static int[] MOVE_COORDINATES = { 7, 8, 9, 16 };
 	int position;
 	Color color;
 	boolean isFirstMove;
 	private int cachedHashCode;
-	
+
 	Pawn(int position, Color color, boolean isFirstMove) {
 		this.position = position;
 		this.color = color;
 		this.isFirstMove = isFirstMove;
 		this.cachedHashCode = computeHashCode();
 	}
-	
+
 	public boolean isFirstMove() {
 		return isFirstMove;
 	}
@@ -35,6 +35,7 @@ public class Pawn implements Piece{
 	public void setFirstMove(boolean isFirstMove) {
 		this.isFirstMove = isFirstMove;
 	}
+
 	public Color getColor() {
 		return this.color;
 	}
@@ -53,15 +54,25 @@ public class Pawn implements Piece{
 			Tile destinationTile = board.getTile(destinationCoordinate);
 			if(!destinationTile.isTileOccupied()) {
 				switch(currentCandidateOffset) {
+				case 7:
+					if(board.getEnPassantPawn() != null) {
+						addEnPassantAttackMove(board, legalMoves, destinationCoordinate, currentCandidateOffset);
+					}
+					break;
 				case 8:
 					legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.PAWN_MOVE, board, this, destinationCoordinate));
+					break;
+				case 9:
+					if(board.getEnPassantPawn() != null) {
+						addEnPassantAttackMove(board, legalMoves, destinationCoordinate, currentCandidateOffset);
+					}
 					break;
 				case 16:
 					Tile jumpedTile = board.getTile(this.position + (this.color.getDirection() * 8));
 					if( this.isFirstMove && (!jumpedTile.isTileOccupied()) &&
-					  ( GameUtils.SECOND_ROW[this.position] && 
+					  ( GameUtils.SEVENTH_RANK.get(this.position) && 
 							  this.getColor().isBlack()) || 
-					  ( GameUtils.SEVENTH_ROW[this.position] && 
+					  ( GameUtils.SECOND_RANK.get(this.position) && 
 							  this.getColor().isWhite())) {
 						legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.PAWN_JUMP_MOVE, board, this, destinationCoordinate));
 					}
@@ -75,26 +86,26 @@ public class Pawn implements Piece{
 					case 7:
 						switch(this.color) {
 						case BLACK:
-							if( !GameUtils.FIRST_COLUMN[this.position] ) {
+							if( !GameUtils.FIRST_COLUMN.get(this.position) ) {
 								legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
 							}
 							break;
 						case WHITE:
-							if ( !GameUtils.EIGHTH_COLUMN[this.position] ) {
+							if ( !GameUtils.EIGHTH_COLUMN.get(this.position) ) {
 								legalMoves.add(MoveFactory.createAttackMove(
 										MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
 							}
+							break;
 						}
-						break;
 					case 9:
 						switch(this.color) {
 						case BLACK:
-							if( !GameUtils.EIGHTH_COLUMN[this.position] ) {
+							if( !GameUtils.EIGHTH_COLUMN.get(this.position) ) {
 								legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
 							}
 							break;
 						case WHITE:
-							if( !GameUtils.FIRST_COLUMN[this.position] ) {
+							if( !GameUtils.FIRST_COLUMN.get(this.position) ) {
 								legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
 							}
 						}
@@ -105,26 +116,27 @@ public class Pawn implements Piece{
 		}
 		return ImmutableList.copyOf(legalMoves);
 	}
-	
+
 	public PieceType getType() {
 		return PieceType.PAWN;
 	}
-	
+
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(),false);
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(),
+				move.getMovedPiece().getColor(), false);
 	}
-	
+
 	@Override
 	public String toString() {
 		return PieceType.PAWN.toString();
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
 		Boolean retVal = null;
-		if(this == other) {
+		if (this == other) {
 			retVal = true;
-		} else if( ! ( other instanceof Pawn ) ) {
+		} else if (!(other instanceof Pawn)) {
 			retVal = false;
 		} else {
 			Pawn otherPawn = (Pawn) other;
@@ -136,12 +148,12 @@ public class Pawn implements Piece{
 		}
 		return retVal.booleanValue();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return this.cachedHashCode;
 	}
-	
+
 	private int computeHashCode() {
 		int result = getType().hashCode();
 		result = 31 * result + this.color.hashCode();
@@ -156,4 +168,25 @@ public class Pawn implements Piece{
 		return PieceType.PAWN.getPieceValue();
 	}
 	
+	private void addEnPassantAttackMove(Board board, List<Move> legalMoves, int destinationCoordinate, int offset) {
+		switch(offset) {
+		case 7:
+			if(board.getEnPassantPawn().getPosition() == this.position + (this.color.getOppositeDirection())) {
+				final Piece pieceOnCandidate = board.getEnPassantPawn();
+				if(this.color != pieceOnCandidate.getColor()) {
+					legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_EN_PASSANT_ATTACK_MOVE, board, this, destinationCoordinate, pieceOnCandidate));
+				}
+			}
+			break;
+		case 9:
+			if(board.getEnPassantPawn().getPosition() == this.position + (this.color.getDirection())) {
+				final Piece pieceOnCandidate = board.getEnPassantPawn();
+				if(this.color != pieceOnCandidate.getColor()) {
+					legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_EN_PASSANT_ATTACK_MOVE, board, this, destinationCoordinate, pieceOnCandidate));
+				}
+			}
+			break;
+		}
+	}
+
 }

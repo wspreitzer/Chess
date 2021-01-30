@@ -21,18 +21,19 @@ import com.williamspreitzer.chess.player.WhitePlayer;
 
 public class Board {
 
-	private List<Tile> gameBoard;
-	private Collection<Piece> whitePieces;
-	private Collection<Piece> blackPieces;
-	private WhitePlayer whitePlayer;
-	private BlackPlayer blackPlayer;
-	private Player currentPlayer;
+	private final List<Tile> gameBoard;
+	private final Collection<Piece> whitePieces;
+	private final Collection<Piece> blackPieces;
+	private final WhitePlayer whitePlayer;
+	private final BlackPlayer blackPlayer;
+	private final Player currentPlayer;
+	private final Pawn enPassantPawn; 
 	
 	private Board(Builder builder) {
 		this.gameBoard = createGameBoard(builder);
 		this.whitePieces = calculateActivePieces(this.gameBoard, Color.WHITE);
 		this.blackPieces = calculateActivePieces(this.gameBoard, Color.BLACK);
-		
+		this.enPassantPawn = builder.enPassantPawn;
 		Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(whitePieces);
 		Collection<Move> blackStandardLegalMoves = calculateLegalMoves(blackPieces);
 		this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
@@ -53,6 +54,9 @@ public class Board {
 		return ImmutableList.copyOf(activePieces);
 	}
 	
+	public Pawn getEnPassantPawn() {
+		return this.enPassantPawn;
+	}
 	public Tile getTile(int tileCoordinate) {
 		return gameBoard.get(tileCoordinate);
 	}
