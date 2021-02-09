@@ -1,9 +1,9 @@
 package com.williamspreitzer.chess;
 
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.player.BlackPlayer;
 import com.williamspreitzer.chess.player.Player;
 import com.williamspreitzer.chess.player.WhitePlayer;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public enum Color {
 	BLACK {

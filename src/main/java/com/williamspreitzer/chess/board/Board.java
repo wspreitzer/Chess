@@ -5,11 +5,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.williamspreitzer.chess.Color;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.piece.Pawn;
 import com.williamspreitzer.chess.piece.Piece;
@@ -18,6 +19,7 @@ import com.williamspreitzer.chess.piece.PieceType;
 import com.williamspreitzer.chess.player.BlackPlayer;
 import com.williamspreitzer.chess.player.Player;
 import com.williamspreitzer.chess.player.WhitePlayer;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class Board {
 
@@ -27,7 +29,7 @@ public class Board {
 	private final WhitePlayer whitePlayer;
 	private final BlackPlayer blackPlayer;
 	private final Player currentPlayer;
-	private final Pawn enPassantPawn; 
+	private final Pawn enPassantPawn;
 	
 	private Board(Builder builder) {
 		this.gameBoard = createGameBoard(builder);
@@ -40,76 +42,89 @@ public class Board {
 		this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
 		this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
 	}
-	
+
 	private static Collection<Piece> calculateActivePieces(List<Tile> gameBoard, Color color) {
 		List<Piece> activePieces = new ArrayList<Piece>();
-		for(Tile tile : gameBoard) {
-			if(tile.isTileOccupied()) {
+		for (Tile tile : gameBoard) {
+			if (tile.isTileOccupied()) {
 				Piece piece = tile.getPiece();
-				if(piece.getColor() == color) {
+				if (piece.getColor() == color) {
 					activePieces.add(piece);
 				}
 			}
 		}
 		return ImmutableList.copyOf(activePieces);
 	}
+
+	public Collection<Piece> getAllPieces() {
+		return Stream.concat(this.whitePieces.stream(), this.blackPieces.stream()).collect(Collectors.toList());
+	}
 	
 	public Pawn getEnPassantPawn() {
 		return this.enPassantPawn;
 	}
+
 	public Tile getTile(int tileCoordinate) {
 		return gameBoard.get(tileCoordinate);
 	}
-	
+
 	public Player getCurrentPlayer() {
 		return this.currentPlayer;
 	}
-	
+
 	private static List<Tile> createGameBoard(Builder builder) {
 		Tile[] tiles = new Tile[GameUtils.NUM_TILES];
-		for (int i = 0; i < GameUtils.NUM_TILES; i++ ) {
+		for (int i = 0; i < GameUtils.NUM_TILES; i++) {
 			tiles[i] = Tile.createTile(i, builder.boardConfig.get(i));
 		}
 		return ImmutableList.copyOf(tiles);
 	}
-	
+
 	private Collection<Move> calculateLegalMoves(Collection<Piece> pieces) {
 		List<Move> legalMoves = new ArrayList<Move>();
-		for(Piece piece : pieces) {
+		for (Piece piece : pieces) {
 			legalMoves.addAll(piece.calculateLegalMoves(this));
 		}
 		return ImmutableList.copyOf(legalMoves);
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		for(int i = 0; i < GameUtils.NUM_TILES; i++ ) {
+		for (int i = 0; i < GameUtils.NUM_TILES; i++) {
 			String tileText = this.gameBoard.get(i).toString();
 			builder.append(String.format("%3s", tileText));
-			if( ( i + 1 ) % GameUtils.NUM_TILES_PER_ROW == 0 ) {
+			if ((i + 1) % GameUtils.NUM_TILES_PER_ROW == 0) {
 				builder.append("\n");
 			}
 		}
 		return builder.toString();
 	}
-	
+
 	public Collection<Piece> getWhitePieces() {
 		return this.whitePieces;
 	}
-	
+
 	public Collection<Piece> getBlackPieces() {
 		return this.blackPieces;
 	}
-	
+
 	public Player getWhitePlayer() {
 		return this.whitePlayer;
 	}
-	
+
 	public Player getBlackPlayer() {
 		return this.blackPlayer;
 	}
-	
+
+	public static Board createTestBoard(Piece ...pieces) { 
+		Builder builder = new Builder();
+		for(Piece piece : pieces) {
+			builder.setPiece(piece);
+		}
+		builder.setMoveMaker(Color.WHITE);
+		return builder.build();
+	}
 	public static Board createStandardBoard() {
 		Builder builder = new Builder();
 		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 0, Color.BLACK, true));
@@ -147,34 +162,38 @@ public class Board {
 		builder.setMoveMaker(Color.WHITE);
 		return builder.build();
 	}
-	
+
 	public Iterable<Move> getAllLegalMoves() {
-		return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getPlayerLegalMoves(), this.blackPlayer.getPlayerLegalMoves()));
+		return Iterables.unmodifiableIterable(
+				Iterables.concat(this.whitePlayer.getPlayerLegalMoves(), this.blackPlayer.getPlayerLegalMoves()));
 	}
-	
+
 	public static class Builder {
 		Map<Integer, Piece> boardConfig;
 		Color nextMoveMaker;
 		Pawn enPassantPawn;
+		Piece promotionPiece;
 		
 		public Builder() {
 			this.boardConfig = new HashMap<Integer, Piece>();
 		}
-		
+
 		public Builder setPiece(Piece piece) {
 			this.boardConfig.put(piece.getPosition(), piece);
 			return this;
 		}
-		
+
 		public Builder setMoveMaker(Color nextMoveMaker) {
 			this.nextMoveMaker = nextMoveMaker;
 			return this;
 		}
+
 		public void setEnPassantPawn(Pawn enPassantPawn) {
 			this.enPassantPawn = enPassantPawn;
 		}
+
 		public Board build() {
 			return new Board(this);
 		}
-	}	
+	}
 }

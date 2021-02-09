@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.piece.Piece;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public abstract class Tile {
 

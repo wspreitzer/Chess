@@ -2,8 +2,8 @@ package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Board.Builder;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.piece.Piece;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public abstract class NonAttackingMoves implements Move {
 

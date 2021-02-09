@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Board.Builder;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveStatus;
 import com.williamspreitzer.chess.piece.King;
 import com.williamspreitzer.chess.piece.PieceFactory;
 import com.williamspreitzer.chess.piece.PieceType;
 import com.williamspreitzer.chess.piece.Queen;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class QueenTest {
 	protected Builder builder;

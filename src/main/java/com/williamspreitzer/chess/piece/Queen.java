@@ -8,10 +8,10 @@ import com.google.common.collect.ImmutableList;
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Tile;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveType;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class Queen implements Piece {
 
@@ -79,7 +79,7 @@ public class Queen implements Piece {
 	}
 	
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(),false);
+			return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(),false);
 	}
 	
 	@Override

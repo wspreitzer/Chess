@@ -1,7 +1,6 @@
 package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.piece.Piece;
 
 public class PawnAttackMove extends AttackMove {
@@ -9,8 +8,6 @@ public class PawnAttackMove extends AttackMove {
 	PawnAttackMove(Board board, Piece movedPiece, int destinationCoordinate, Piece attackedPiece) {
 		super(board, movedPiece, destinationCoordinate, attackedPiece);
 	}
-
-	private Board board;
 	
 	@Override
 	public MoveType getType() {
@@ -21,7 +18,6 @@ public class PawnAttackMove extends AttackMove {
 	public Board getBoard() {
 		return this.board;
 	}
-
 
 	@Override
 	public Piece getMovedPiece() {

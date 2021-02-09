@@ -2,8 +2,8 @@ package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Board.Builder;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.piece.Piece;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public abstract class AttackMove implements Move {
 
@@ -84,6 +84,7 @@ public abstract class AttackMove implements Move {
 		}
 		return retVal.booleanValue();
 	}
+	
 	public Board execute() {
 		Builder builder = new Builder();
 		for(Piece piece : this.board.getCurrentPlayer().getActivePieces()) {

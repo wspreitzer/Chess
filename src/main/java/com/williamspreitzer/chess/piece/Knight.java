@@ -7,10 +7,10 @@ import java.util.List;
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Tile;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveType;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class Knight implements Piece {
 

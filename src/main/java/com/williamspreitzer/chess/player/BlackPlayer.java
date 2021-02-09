@@ -7,12 +7,12 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveType;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.Rook;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class BlackPlayer extends Player {
 
@@ -43,13 +43,17 @@ public class BlackPlayer extends Player {
 		if(this.playerKing.isFirstMove() && !this.isInCheck()) {
 			if(GameUtils.isTilesEmpty(this.board, 1,2,3) && !GameUtils.areTilesBeingAttacked(opponentLegalMoves, 1, 2, 3)) {
 				final Rook rook = (Rook) this.board.getTile(0).getPiece();
-				if(this.board.getTile(rook.getPosition()).isTileOccupied() && rook.isFirstMove()) {
-					kingCastles.add(MoveFactory.createCastleMove(MoveType.QUEEN_SIDE_CASTLE_MOVE, board, this.playerKing, 2, (Rook) rook, 3));
+				if(rook != null) {
+					if(this.board.getTile(rook.getPosition()).isTileOccupied() && rook.isFirstMove()) {
+						kingCastles.add(MoveFactory.createCastleMove(MoveType.QUEEN_SIDE_CASTLE_MOVE, board, this.playerKing, 2, (Rook) rook, 3));
+					}
 				}
 			} else if(GameUtils.isTilesEmpty(this.board, 5,6) && !GameUtils.areTilesBeingAttacked(opponentLegalMoves, 5, 6)) {
 				final Rook rook = (Rook) this.board.getTile(7).getPiece();
-				if(this.board.getTile(rook.getPosition()).isTileOccupied() && rook.isFirstMove()) {
-					kingCastles.add(MoveFactory.createCastleMove(MoveType.KING_SIDE_CASTLE_MOVE, board, this.playerKing, 6, rook, 5));
+				if(rook != null) {
+					if(this.board.getTile(rook.getPosition()).isTileOccupied() && rook.isFirstMove()) {
+						kingCastles.add(MoveFactory.createCastleMove(MoveType.KING_SIDE_CASTLE_MOVE, board, this.playerKing, 6, rook, 5));
+					}
 				}
 			}
 		}

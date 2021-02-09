@@ -5,11 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.williamspreitzer.chess.board.Board;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveStatus;
 import com.williamspreitzer.chess.moves.MoveTransition;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class KingCastleTest {
 

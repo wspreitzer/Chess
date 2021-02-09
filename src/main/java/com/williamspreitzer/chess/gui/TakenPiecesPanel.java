@@ -17,18 +17,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.AttackMove;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveLog;
 import com.williamspreitzer.chess.piece.Piece;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class TakenPiecesPanel extends JPanel {
 	private final JPanel northPanel;
 	private final JPanel southPanel;
 	private final static EtchedBorder PANEL_BORDER = new EtchedBorder(EtchedBorder.RAISED);
-	private final static Color PANEL_COLOR = Color.decode("0xFDFE6");
-	private final static Dimension TAKEN_PIECES_DIMENSION = new Dimension(40, 80);
+	private final static Color PANEL_COLOR = Color.decode(GameUtils.props.getProperty("color.takenPanel"));
+	private final static Dimension TAKEN_PIECES_DIMENSION = new Dimension(Integer.valueOf(GameUtils.props.getProperty("dimension.takenPanel.x")), 
+			Integer.valueOf(GameUtils.props.getProperty("dimension.takenPanel.y")));
 
 	private static final long serialVersionUID = 1L;
 
@@ -73,7 +74,7 @@ public class TakenPiecesPanel extends JPanel {
 		for (final Piece takenPiece : takenPieces) {
 			BufferedImage image;
 			try {
-				image = ImageIO.read(new File(GameUtils.iconName(null, takenPiece)));
+				image = ImageIO.read(new File(GameUtils.iconName(null, Table.iconPath, takenPiece)));
 				final ImageIcon imageIcon = new ImageIcon(image);
 				final JLabel imageLabel = new JLabel(imageIcon);
 				panel.add(imageLabel);

@@ -2,11 +2,18 @@ package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.piece.Piece;
+import com.williamspreitzer.chess.piece.PieceFactory;
+import com.williamspreitzer.chess.piece.PieceType;
 import com.williamspreitzer.chess.piece.Rook;
 
 public class MoveFactory {
 
+	private static final Move NULL_MOVE = new NullMove(null, null, 0);
 	private static Move retMove = null;
+	
+	public static Move getNullMove() {
+		return NULL_MOVE;
+	}
 	
 	public static NonAttackingMoves createNonAttackingMove(MoveType type, Board board, Piece movedPiece, int destinationCoordinate) {
 		switch(type) {
@@ -18,6 +25,9 @@ public class MoveFactory {
 			break;
 		case PAWN_MOVE:
 			retMove = new PawnMove(board, movedPiece, destinationCoordinate);
+			break;
+		case PAWN_PROMOTION_MOVE:
+			retMove = new PawnPromotionMove(new PawnMove(board, movedPiece, destinationCoordinate), PieceFactory.createPiece(PieceType.QUEEN, destinationCoordinate, movedPiece.getColor(), true));
 			break;
 		case NULL_MOVE:
 			retMove = new NullMove(board, movedPiece, destinationCoordinate);
@@ -35,6 +45,9 @@ public class MoveFactory {
 			break;
 		case MAJOR_ATTACK_MOVE:
 			retMove = new MajorAttackMove(board, movedPiece, destinationCoordinate, attackedPiece);
+			break;
+		case PAWN_ATTACK_PROMOTION_MOVE:
+			retMove = new PawnAttackPromotionMove(new PawnAttackMove(board, movedPiece, destinationCoordinate, attackedPiece), PieceFactory.createPiece(PieceType.QUEEN, destinationCoordinate, movedPiece.getColor(), true));
 			break;
 		case PAWN_EN_PASSANT_ATTACK_MOVE:
 			retMove = new PawnEnPassantAttackMove(board, movedPiece, destinationCoordinate, attackedPiece);

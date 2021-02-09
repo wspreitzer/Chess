@@ -8,10 +8,10 @@ import com.google.common.collect.ImmutableList;
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Tile;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveType;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class King implements Piece{
 
@@ -20,13 +20,23 @@ public class King implements Piece{
 	private Color color;
 	private boolean isFirstMove;
 	private int cachedHashCode;
+	private boolean kingSideCastleCapable;
+	private boolean queenSideCastleCapable;
+	private boolean isCastled;
 	
 	King(int position, Color color, boolean isFirstMove) {
 		this.position = position;
 		this.color = color;
 		this.isFirstMove = isFirstMove;
 		this.cachedHashCode = this.computeHashCode();
+		this.isCastled = false;
+		this.kingSideCastleCapable = true;
+		this.queenSideCastleCapable = true;
 		
+	}
+	
+	public boolean isCastled() {
+		return this.isCastled;
 	}
 	
 	public Color getColor() {
@@ -45,16 +55,24 @@ public class King implements Piece{
 		this.isFirstMove = isFirstMove;
 	}
 
+	public boolean isKingSideCastleCapable() {
+        return this.kingSideCastleCapable;
+    }
+
+    public boolean isQueenSideCastleCapable() {
+        return this.queenSideCastleCapable;
+    }
+	
 	public Collection<Move> calculateLegalMoves(Board board) {
 		List<Move> legalMoves = new ArrayList<Move>();
-		for(int currentCoordinate : MOVE_COORDINATES) {
+		for(int coordinate : MOVE_COORDINATES) {
 			int destinationCoordinate = this.position;
-			if(isFirstColumnExclusion(destinationCoordinate, currentCoordinate) ||
-			   isEighthColumnExclusion(destinationCoordinate, currentCoordinate)) {
+			if(isFirstColumnExclusion(destinationCoordinate, coordinate) ||
+			   isEighthColumnExclusion(destinationCoordinate, coordinate)) {
 				break;
 			}
 			
-			destinationCoordinate += currentCoordinate;
+			destinationCoordinate += coordinate;
 			if (GameUtils.isValidTileCoordinate(destinationCoordinate)) {
 				Tile destinationTile = board.getTile(destinationCoordinate);
 				if(!destinationTile.isTileOccupied()) {
@@ -124,7 +142,6 @@ public class King implements Piece{
 
 	@Override
 	public Integer getPieceValue() {
-		// TODO Auto-generated method stub
 		return PieceType.KING.getPieceValue();
 	}
 }

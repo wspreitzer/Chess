@@ -3,22 +3,21 @@ package com.williamspreitzer.chess.piece.white;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Board.Builder;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveStatus;
 import com.williamspreitzer.chess.moves.MoveTransition;
-import com.williamspreitzer.chess.piece.EnPassantPawn;
 import com.williamspreitzer.chess.piece.King;
+import com.williamspreitzer.chess.piece.Knight;
 import com.williamspreitzer.chess.piece.Pawn;
+import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.PieceFactory;
 import com.williamspreitzer.chess.piece.PieceType;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class PawnTest {
 
@@ -43,8 +42,8 @@ public class PawnTest {
 	}
 	@Test
 	void movePawnTest() {
-		Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, pawn, null, 8));
-		Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, pawn, null, 16));
+		Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, pawn, 8));
+		Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, pawn, 16));
 	}
 	
 	@Test
@@ -55,13 +54,20 @@ public class PawnTest {
 		for (int offset : offsets) {
 			attackedPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e2") - offset, Color.BLACK, false);
 			builder.setPiece(attackedPawn);
-			Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, pawn, attackedPawn, offset));
+			Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, pawn, offset));
 		}
 	}
 	
 	@Test
 	void pawnPromotionTest() {
-		
+		Knight attackedKnight = null;
+		Pawn attackingPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("b7"), Color.WHITE, false);
+		int [] offsets = {7,9};
+		for (int offset : offsets) {
+			attackedKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("b7") - offset, Color.BLACK, false);
+			builder.setPiece(attackedKnight);
+			Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, attackingPawn, offset));
+		}
 	}
 	
 	
@@ -74,7 +80,7 @@ public class PawnTest {
 		builder.setPiece(whitePawn);
 		board = builder.build();
 		Assertions.assertEquals(8, board.getWhitePlayer().getPlayerLegalMoves().size());
-		Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, whitePawn, enPassantPawn, 7));
+		Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, whitePawn, 7));
 	}
 	
 	@Test
@@ -86,12 +92,11 @@ public class PawnTest {
 		builder.setPiece(whitePawn);
 		board = builder.build();
 		Assertions.assertEquals(8, board.getWhitePlayer().getPlayerLegalMoves().size());
-		Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, whitePawn, enPassantPawn, 9));
+		Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, whitePawn, 9));
 	}
 	
-	private MoveStatus doMove(Builder builder, Pawn pawn, Pawn attackedPawn, int offset) {
+	private MoveStatus doMove(Builder builder, Pawn pawn, int offset) {
 		builder.setPiece(pawn);
-		builder.setMoveMaker(pawn.getColor());
 		board = builder.build();
 		final Move move = MoveFactory.getMove(board, pawn.getPosition(), pawn.getPosition() - offset);
 		final MoveTransition transition = board.getCurrentPlayer().makeMove(move);

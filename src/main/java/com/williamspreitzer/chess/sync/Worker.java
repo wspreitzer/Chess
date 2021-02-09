@@ -13,6 +13,7 @@ import com.williamspreitzer.chess.gui.DialogBox;
 import com.williamspreitzer.chess.gui.DialogFactory;
 import com.williamspreitzer.chess.gui.DialogType;
 import com.williamspreitzer.chess.gui.Table;
+import com.williamspreitzer.chess.utils.GameUtils;
 public class Worker {
 
 	static DialogBox box;
@@ -24,15 +25,15 @@ public class Worker {
 			break;
 		case 1:
 			box = DialogFactory.createDialogBox(DialogType.VERSION_NEEDS_UPDATE,
-					"Your version is out of date.  Please update at your convienence.");
+					GameUtils.props.getProperty("message.versionNeedsUpdate"));
 			break;
 		case 408:
 			box = DialogFactory.createDialogBox(DialogType.NO_INTERNET_CONNECTION,
-					"No internet connection found.  Cannot check for updates.");
+					GameUtils.props.getProperty("message.noInternetConnection"));
 			break;
 		default:
 			box = DialogFactory.createDialogBox(DialogType.CATOSTRAPHIC_ERROR_OCCURED,
-					"Catostraphic error occured.  Please contact support for help.");
+					GameUtils.props.getProperty("message.catostraphicError"));
 		}
 		
 		while (DialogBox.isOpen) {
@@ -49,8 +50,7 @@ public class Worker {
 
 	@SuppressWarnings("unused")
 	public synchronized void runGui() {
-		Board board = Board.createStandardBoard();
-		Table table = new Table();
+		Table table = Table.getTable();
 	}
 
 	private static String getVersion() {
@@ -59,7 +59,6 @@ public class Worker {
 		try {
 			model = reader.read(new FileReader("pom.xml"));
 		} catch (IOException | XmlPullParserException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return model.getVersion();

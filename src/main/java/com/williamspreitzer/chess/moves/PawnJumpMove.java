@@ -2,7 +2,6 @@ package com.williamspreitzer.chess.moves;
 
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Board.Builder;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.piece.Pawn;
 import com.williamspreitzer.chess.piece.Piece;
 

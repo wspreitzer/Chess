@@ -8,10 +8,10 @@ import com.google.common.collect.ImmutableList;
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Tile;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveType;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class Pawn implements Piece {
 
@@ -46,68 +46,104 @@ public class Pawn implements Piece {
 
 	public Collection<Move> calculateLegalMoves(Board board) {
 		List<Move> legalMoves = new ArrayList<Move>();
-		for(int currentCandidateOffset : MOVE_COORDINATES) {
+		for (int currentCandidateOffset : MOVE_COORDINATES) {
 			int destinationCoordinate = this.position + (this.getColor().getDirection() * currentCandidateOffset);
-			if( !GameUtils.isValidTileCoordinate(destinationCoordinate)) {
+			if (!GameUtils.isValidTileCoordinate(destinationCoordinate)) {
 				continue;
 			}
 			Tile destinationTile = board.getTile(destinationCoordinate);
-			if(!destinationTile.isTileOccupied()) {
-				switch(currentCandidateOffset) {
+			if (!destinationTile.isTileOccupied()) {
+				switch (currentCandidateOffset) {
 				case 7:
-					if(board.getEnPassantPawn() != null) {
+					if (board.getEnPassantPawn() != null) {
 						addEnPassantAttackMove(board, legalMoves, destinationCoordinate, currentCandidateOffset);
 					}
 					break;
 				case 8:
-					legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.PAWN_MOVE, board, this, destinationCoordinate));
+					if (this.color.isPawnPromotionTile(destinationCoordinate)) {
+						legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.PAWN_PROMOTION_MOVE, board, this,
+								destinationCoordinate));
+					} else {
+						legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.PAWN_MOVE, board, this,
+								destinationCoordinate));
+					}
 					break;
 				case 9:
-					if(board.getEnPassantPawn() != null) {
+					if (board.getEnPassantPawn() != null) {
 						addEnPassantAttackMove(board, legalMoves, destinationCoordinate, currentCandidateOffset);
 					}
 					break;
 				case 16:
 					Tile jumpedTile = board.getTile(this.position + (this.color.getDirection() * 8));
-					if( this.isFirstMove && (!jumpedTile.isTileOccupied()) &&
-					  ( GameUtils.SEVENTH_RANK.get(this.position) && 
-							  this.getColor().isBlack()) || 
-					  ( GameUtils.SECOND_RANK.get(this.position) && 
-							  this.getColor().isWhite())) {
-						legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.PAWN_JUMP_MOVE, board, this, destinationCoordinate));
+					if (this.isFirstMove && (!jumpedTile.isTileOccupied())
+							&& (GameUtils.SEVENTH_RANK.get(this.position) && this.getColor().isBlack())
+							|| (GameUtils.SECOND_RANK.get(this.position) && this.getColor().isWhite())) {
+						legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.PAWN_JUMP_MOVE, board, this,
+								destinationCoordinate));
 					}
 					break;
 				default:
 					continue;
 				}
 			} else {
-				if( this.color != destinationTile.getPiece().getColor()) {
-					switch(currentCandidateOffset) {
+				if (this.color != destinationTile.getPiece().getColor()) {
+					switch (currentCandidateOffset) {
 					case 7:
-						switch(this.color) {
+						switch (this.color) {
 						case BLACK:
-							if( !GameUtils.FIRST_COLUMN.get(this.position) ) {
-								legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
+							if (!GameUtils.FIRST_COLUMN.get(this.position)) {
+								if (Color.BLACK.isPawnPromotionTile(destinationCoordinate)) {
+									legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_PROMOTION_MOVE,
+											board, this, destinationCoordinate, destinationTile.getPiece()));
+								} else {
+									legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this,
+											destinationCoordinate, destinationTile.getPiece()));
+								}
+								break;
 							}
 							break;
 						case WHITE:
-							if ( !GameUtils.EIGHTH_COLUMN.get(this.position) ) {
-								legalMoves.add(MoveFactory.createAttackMove(
-										MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
+							if (!GameUtils.EIGHTH_COLUMN.get(this.position)) {
+								if (Color.WHITE.isPawnPromotionTile(destinationCoordinate)) {
+									legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_PROMOTION_MOVE,
+											board, this, destinationCoordinate, destinationTile.getPiece()));
+								} else {
+									legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this,
+											destinationCoordinate, destinationTile.getPiece()));
+								}
 							}
+							break;
+						default:
 							break;
 						}
+						break;
 					case 9:
-						switch(this.color) {
+						switch (this.color) {
 						case BLACK:
-							if( !GameUtils.EIGHTH_COLUMN.get(this.position) ) {
-								legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
+							if (!GameUtils.EIGHTH_COLUMN.get(this.position)) {
+								if (Color.BLACK.isPawnPromotionTile(destinationCoordinate)) {
+									legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_PROMOTION_MOVE,
+											board, this, destinationCoordinate, destinationTile.getPiece()));
+								} else {
+									legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this,
+											destinationCoordinate, destinationTile.getPiece()));
+								}
+								break;
 							}
 							break;
 						case WHITE:
-							if( !GameUtils.FIRST_COLUMN.get(this.position) ) {
-								legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this, destinationCoordinate, destinationTile.getPiece()));
+							if (!GameUtils.FIRST_COLUMN.get(this.position)) {
+								if (Color.WHITE.isPawnPromotionTile(destinationCoordinate)) {
+									legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_PROMOTION_MOVE,
+											board, this, destinationCoordinate, destinationTile.getPiece()));
+								} else {
+									legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_ATTACK_MOVE, board, this,
+											destinationCoordinate, destinationTile.getPiece()));
+								}
 							}
+							break;
+						default:
+							break;
 						}
 						break;
 					}
@@ -167,22 +203,24 @@ public class Pawn implements Piece {
 		// TODO Auto-generated method stub
 		return PieceType.PAWN.getPieceValue();
 	}
-	
+
 	private void addEnPassantAttackMove(Board board, List<Move> legalMoves, int destinationCoordinate, int offset) {
-		switch(offset) {
+		switch (offset) {
 		case 7:
-			if(board.getEnPassantPawn().getPosition() == this.position + (this.color.getOppositeDirection())) {
+			if (board.getEnPassantPawn().getPosition() == this.position + (this.color.getOppositeDirection())) {
 				final Piece pieceOnCandidate = board.getEnPassantPawn();
-				if(this.color != pieceOnCandidate.getColor()) {
-					legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_EN_PASSANT_ATTACK_MOVE, board, this, destinationCoordinate, pieceOnCandidate));
+				if (this.color != pieceOnCandidate.getColor()) {
+					legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_EN_PASSANT_ATTACK_MOVE, board, this,
+							destinationCoordinate, pieceOnCandidate));
 				}
 			}
 			break;
 		case 9:
-			if(board.getEnPassantPawn().getPosition() == this.position + (this.color.getDirection())) {
+			if (board.getEnPassantPawn().getPosition() == this.position + (this.color.getDirection())) {
 				final Piece pieceOnCandidate = board.getEnPassantPawn();
-				if(this.color != pieceOnCandidate.getColor()) {
-					legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_EN_PASSANT_ATTACK_MOVE, board, this, destinationCoordinate, pieceOnCandidate));
+				if (this.color != pieceOnCandidate.getColor()) {
+					legalMoves.add(MoveFactory.createAttackMove(MoveType.PAWN_EN_PASSANT_ATTACK_MOVE, board, this,
+							destinationCoordinate, pieceOnCandidate));
 				}
 			}
 			break;

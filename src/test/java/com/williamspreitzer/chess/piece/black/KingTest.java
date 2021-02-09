@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.board.Board.Builder;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveStatus;
@@ -19,6 +18,8 @@ import com.williamspreitzer.chess.piece.King;
 import com.williamspreitzer.chess.piece.PieceFactory;
 import com.williamspreitzer.chess.piece.PieceType;
 import com.williamspreitzer.chess.piece.Queen;
+import com.williamspreitzer.chess.player.ai.KingSafetyAnalyzer;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class KingTest {
 
@@ -43,19 +44,22 @@ public class KingTest {
 		assertEquals(5, board.getWhitePlayer().getPlayerLegalMoves().size());
 	}
 	
-	@ParameterizedTest
-	@ValueSource(strings = {"Forward", "Backward"})
-	public void moveKingTest(String direction) {
-		
+	@Test
+	public void moveKingTest() {
+		String[] directions = new String[] {"Forward", "Revers"};
 		int[] offsets = { 1, 7, 8, 9 };
-		if(direction.equals("Forward")) {
-			for( int offSet : offsets ) {
-				assertEquals(MoveStatus.DONE, this.doMove(builder, blackKing, offSet));
+		for (String direction : directions) {
+			if(direction.equals("Forward")) {
+				for(int offset : offsets) {
+					assertEquals(MoveStatus.DONE, this.doMove(builder, blackKing, offset * Color.BLACK.getDirection()));
+				}
+			} else {
+				for(int offset : offsets) {
+					assertEquals(MoveStatus.DONE, this.doMove(builder, blackKing, offset * Color.BLACK.getOppositeDirection()));
+				}
 			}
-		} else {
-			for(int offset : offsets) {
-				assertEquals(MoveStatus.DONE, this.doMove(builder, blackKing, offset * Color.WHITE.getDirection()));
-			}
+		}
+		for( int offSet : offsets ) {
 		}
 	}
 	
@@ -64,6 +68,14 @@ public class KingTest {
 		Queen queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("c3"), Color.WHITE, false);
 		builder.setPiece(queen);
 		assertEquals(MoveStatus.LEAVES_PLAYER_IN_CHECK, this.doMove(builder, blackKing, 8));
+	}
+	
+	@Test
+	public void testKingSafteyAnalyzer() {
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 12, Color.BLACK, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, false));
+		final Board board = builder.build();
+		assertEquals(10, KingSafetyAnalyzer.getKingSafetyAnalyzer().calculateKingTropism(board.getBlackPlayer()).tropismScore());
 	}
 	
 	private MoveStatus doMove(Builder builder, King king, int offSet) {

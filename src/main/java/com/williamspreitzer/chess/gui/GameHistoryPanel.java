@@ -9,17 +9,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.williamspreitzer.chess.board.Board;
-import com.williamspreitzer.chess.board.utils.GameUtils;
 import com.williamspreitzer.chess.data.DataModel;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveLog;
+import com.williamspreitzer.chess.utils.GameUtils;
 
 public class GameHistoryPanel extends JPanel {
 
 	private DataModel model;
 	private final JScrollPane scrollPane;
 	private static final Dimension HISTORY_PANEL_DIMENSION = new Dimension(100,400);
-	
+	private static DataModel globalModel;
 	private static final long serialVersionUID = 1L;
 	
 	GameHistoryPanel() {
@@ -31,6 +31,7 @@ public class GameHistoryPanel extends JPanel {
 		scrollPane.setColumnHeaderView(table.getTableHeader());
 		scrollPane.setPreferredSize(HISTORY_PANEL_DIMENSION);
 		this.add(scrollPane, BorderLayout.CENTER);
+		GameHistoryPanel.globalModel = model;
 		this.setVisible(true);
 	}
 	
@@ -62,5 +63,7 @@ public class GameHistoryPanel extends JPanel {
 		
 	}
 	
-	
+	public static DataModel getDataModel() {
+		return globalModel;
+	}
 }

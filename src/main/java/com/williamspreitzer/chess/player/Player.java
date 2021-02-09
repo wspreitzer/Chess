@@ -68,33 +68,26 @@ public abstract class Player {
 		return false;
 	}
 	
-	public MoveTransition makeMoves(Move move) {
-		MoveTransition retVal = null;
-		if(!(move instanceof NullMove) ) {
-			if(Player.calculateAttacksOnTile(move.getMovedPiece().getPosition(), move.getBoard().getCurrentPlayer().getOpponent().getPlayerLegalMoves()).isEmpty()) {
-				Board transitionBoard = move.execute();
-				retVal = new MoveTransition(transitionBoard, move, MoveStatus.DONE);
-			} else {
-				retVal = new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
-			}
-		} else {
-			retVal = new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
-		}
-		return retVal;
-	}
+	public boolean isKingSideCastleCapable() {
+        return this.playerKing.isKingSideCastleCapable();
+    }
+
+    public boolean isQueenSideCastleCapable() {
+        return this.playerKing.isQueenSideCastleCapable();
+    }
 	
 	public MoveTransition makeMove(Move move) {
 		MoveTransition retVal = null;
 		if(!isMoveLegal(move)) {
-			retVal = new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
+			retVal = new MoveTransition(this.board, this.board, move, MoveStatus.ILLEGAL_MOVE);
 		} else {
 			Board transitionBoard = move.execute();
 			Collection<Move> kingAttacks = Player.calculateAttacksOnTile(transitionBoard.getCurrentPlayer().
 					getOpponent().getPlayerKing().getPosition(), transitionBoard.getCurrentPlayer().playerLegalMoves);
 			if(!kingAttacks.isEmpty()) {
-				retVal = new MoveTransition(this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
+				retVal = new MoveTransition(this.board, this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK);
 			} else {
-				retVal = new MoveTransition(transitionBoard, move, MoveStatus.DONE);
+				retVal = new MoveTransition(this.board, transitionBoard, move, MoveStatus.DONE);
 			}
 		}
 		return retVal;
@@ -103,6 +96,12 @@ public abstract class Player {
 	public Piece getPlayerKing() {
 		return this.playerKing;
 	}
+	
+	@Override
+	public String toString() {
+		return getColor().toString();
+	}
+	
 	private King establishKing() {
 		King retVal = null;
 		for(Piece piece : getActivePieces() ) {
