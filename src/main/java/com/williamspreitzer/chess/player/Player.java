@@ -12,7 +12,6 @@ import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveStatus;
 import com.williamspreitzer.chess.moves.MoveTransition;
-import com.williamspreitzer.chess.moves.NullMove;
 import com.williamspreitzer.chess.piece.King;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.PieceType;
@@ -65,7 +64,7 @@ public abstract class Player {
 	}
 	
 	public boolean isCastled() {
-		return false;
+		return this.playerKing.isCastled();
 	}
 	
 	public boolean isKingSideCastleCapable() {
@@ -93,7 +92,7 @@ public abstract class Player {
 		return retVal;
 	}
 	
-	public Piece getPlayerKing() {
+	public King getPlayerKing() {
 		return this.playerKing;
 	}
 	

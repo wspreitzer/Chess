@@ -26,9 +26,9 @@ public class RookTest {
 	
 	@BeforeEach
 	private void setup() {
-		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false);
-		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false);
-		rook = (Rook) PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("d4"), Color.BLACK, false);
+		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false, false);
+		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false, false);
+		rook = (Rook) PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("d4"), Color.BLACK, false, null);
 		builder = new Builder();
 		builder.setPiece(blackKing);
 		builder.setPiece(whiteKing);
@@ -66,11 +66,21 @@ public class RookTest {
 
 	@Test
 	public void testTopMiddleRookWithPieceInWay() {
-		rook = (Rook) PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("d8"), Color.BLACK, false);
+		rook = (Rook) PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("d8"), Color.BLACK, false, null);
 		builder.setPiece(rook);
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("d4"), Color.BLACK, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("d4"), Color.BLACK, false, null));
 		board = builder.build();
 		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("d8"), GameUtils.getCoordinateAtPosition("d3")).getBoard());
+	}
+	
+	@Test
+	public void testIsEighthColumnExclusion() {
+		
+	}
+	
+	@Test
+	public void testIsFirstColumnExclusion()  {
+		
 	}
 	
 	private MoveStatus doMove(int position, int destination) {

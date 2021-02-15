@@ -28,8 +28,8 @@ public class TestCheckmateMoves {
 	private void setup() {
 		this.board = Board.createStandardBoard();
 		this.testBuilder = new Builder();
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.KING, 4, Color.BLACK, true));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.KING, 60, Color.WHITE, true));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.KING, 4, Color.BLACK, true, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.KING, 60, Color.WHITE, true, null));
 	}
 
 	@Test
@@ -672,34 +672,34 @@ public class TestCheckmateMoves {
 	public void testAnastasiaMate() {
 		testBuilder = new Builder();
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.ROOK, 0, com.williamspreitzer.chess.Color.BLACK, false));
+				.setPiece(PieceFactory.createPiece(PieceType.ROOK, 0, com.williamspreitzer.chess.Color.BLACK, false, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.ROOK, 5, com.williamspreitzer.chess.Color.BLACK, false));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 8, com.williamspreitzer.chess.Color.BLACK, true));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 9, com.williamspreitzer.chess.Color.BLACK, true));
+				.setPiece(PieceFactory.createPiece(PieceType.ROOK, 5, com.williamspreitzer.chess.Color.BLACK, false, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 8, com.williamspreitzer.chess.Color.BLACK, true, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 9, com.williamspreitzer.chess.Color.BLACK, true, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 10, com.williamspreitzer.chess.Color.BLACK, true));
+				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 10, com.williamspreitzer.chess.Color.BLACK, true, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 13, com.williamspreitzer.chess.Color.BLACK, true));
+				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 13, com.williamspreitzer.chess.Color.BLACK, true, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.KING, 15, com.williamspreitzer.chess.Color.BLACK, false));
+				.setPiece(PieceFactory.createPiece(PieceType.KING, 15, com.williamspreitzer.chess.Color.BLACK, false, null));
 
 		testBuilder.setPiece(
-				PieceFactory.createPiece(PieceType.KNIGHT, 12, com.williamspreitzer.chess.Color.WHITE, false));
+				PieceFactory.createPiece(PieceType.KNIGHT, 12, com.williamspreitzer.chess.Color.WHITE, false, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.ROOK, 27, com.williamspreitzer.chess.Color.WHITE, false));
+				.setPiece(PieceFactory.createPiece(PieceType.ROOK, 27, com.williamspreitzer.chess.Color.WHITE, false, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 41, com.williamspreitzer.chess.Color.WHITE, false));
+				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 41, com.williamspreitzer.chess.Color.WHITE, false, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 48, com.williamspreitzer.chess.Color.WHITE, true));
+				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 48, com.williamspreitzer.chess.Color.WHITE, true, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 53, com.williamspreitzer.chess.Color.WHITE, true));
+				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 53, com.williamspreitzer.chess.Color.WHITE, true, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 54, com.williamspreitzer.chess.Color.WHITE, true));
+				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 54, com.williamspreitzer.chess.Color.WHITE, true, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 55, com.williamspreitzer.chess.Color.WHITE, true));
+				.setPiece(PieceFactory.createPiece(PieceType.PAWN, 55, com.williamspreitzer.chess.Color.WHITE, true, null));
 		testBuilder
-				.setPiece(PieceFactory.createPiece(PieceType.KING, 62, com.williamspreitzer.chess.Color.WHITE, true));
+				.setPiece(PieceFactory.createPiece(PieceType.KING, 62, com.williamspreitzer.chess.Color.WHITE, true, null));
 		testBuilder.setMoveMaker(Color.WHITE);
 
 		final Board board = testBuilder.build();
@@ -713,15 +713,15 @@ public class TestCheckmateMoves {
 
 	@Test
 	public void testTwoBishopMate() {
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 3, Color.BLACK, true));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 8, Color.BLACK, false));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 10, Color.BLACK, true));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 15, Color.BLACK, true));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 17, Color.BLACK, true));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 3, Color.BLACK, true, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 8, Color.BLACK, false, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 10, Color.BLACK, true, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 15, Color.BLACK, true, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 17, Color.BLACK, true, null));
 
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 38, Color.WHITE, false));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 40, Color.WHITE, false));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 38, Color.WHITE, false, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 40, Color.WHITE, false, null));
 		testBuilder.setMoveMaker(Color.WHITE);
 
 		final Board board = testBuilder.build();
@@ -736,8 +736,8 @@ public class TestCheckmateMoves {
 
 	@Test
 	public void testQueenRookMate() {
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 9, Color.WHITE, false));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 16, Color.WHITE, false));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 9, Color.WHITE, false, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 16, Color.WHITE, false, null));
 
 		testBuilder.setMoveMaker(Color.WHITE);
 
@@ -752,9 +752,9 @@ public class TestCheckmateMoves {
 
 	@Test
 	public void testQueenKnightMate() {
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 15, Color.WHITE, false));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 29, Color.WHITE, false));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 55, Color.WHITE, true));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 15, Color.WHITE, false, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 29, Color.WHITE, false, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 55, Color.WHITE, true, null));
 		testBuilder.setMoveMaker(Color.WHITE);
 
 		final Board board = testBuilder.build();
@@ -768,11 +768,11 @@ public class TestCheckmateMoves {
 
 	@Test
 	public void testBackRankMate() {
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 18, Color.BLACK, false));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 18, Color.BLACK, false, null));
 
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 51, Color.WHITE, true));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true));
-		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 53, Color.WHITE, true));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 51, Color.WHITE, true, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true, null));
+		testBuilder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 53, Color.WHITE, true, null));
 
 		// Set the current player
 		testBuilder.setMoveMaker(Color.BLACK);

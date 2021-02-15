@@ -11,6 +11,7 @@ import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveType;
 import com.williamspreitzer.chess.piece.Piece;
+import com.williamspreitzer.chess.piece.PieceType;
 import com.williamspreitzer.chess.piece.Rook;
 import com.williamspreitzer.chess.utils.GameUtils;
 
@@ -40,18 +41,15 @@ public class WhitePlayer extends Player {
 		final List<Move> kingCastles = new ArrayList<Move>();
 		if(this.playerKing.isFirstMove() && !this.isInCheck()) {
 			if(GameUtils.isTilesEmpty(this.board, 61,62) && !GameUtils.areTilesBeingAttacked(opponentLegalMoves, 61,62)) {
-				final Rook rook = (Rook) this.board.getTile(63).getPiece();
-				if(rook != null) {
-					if(this.board.getTile(rook.getPosition()).isTileOccupied() && rook.isFirstMove()) {
-						kingCastles.add(MoveFactory.createCastleMove(MoveType.KING_SIDE_CASTLE_MOVE, board, this.playerKing, 62, (Rook) rook, 61));
-					}
+				Piece kingRook = board.getTile(GameUtils.getCoordinateAtPosition("h1")).getPiece();
+				if( kingRook instanceof Rook && kingRook.isFirstMove() ) {
+						kingCastles.add(MoveFactory.createCastleMove(MoveType.KING_SIDE_CASTLE_MOVE, board, this.playerKing, 62, (Rook) kingRook, 61));
 				}
-			} else if(GameUtils.isTilesEmpty(this.board, 57,58,59) && !GameUtils.areTilesBeingAttacked(opponentLegalMoves, 57,58,59)) {
-				final Rook rook = (Rook) this.board.getTile(56).getPiece();
-				if(rook != null) {
-					if(this.board.getTile(rook.getPosition()).isTileOccupied() && rook.isFirstMove()) {
-						kingCastles.add(MoveFactory.createCastleMove(MoveType.QUEEN_SIDE_CASTLE_MOVE, board, this.playerKing, 58, (Rook) rook, 59));
-					}
+			} 
+			if(GameUtils.isTilesEmpty(this.board, 57,58,59) && !GameUtils.areTilesBeingAttacked(opponentLegalMoves, 57,58,59)) {
+				Piece queenRook = board.getTile(GameUtils.getCoordinateAtPosition("a1")).getPiece();
+				if( queenRook instanceof Rook && queenRook.isFirstMove()) {
+					kingCastles.add(MoveFactory.createCastleMove(MoveType.QUEEN_SIDE_CASTLE_MOVE, board, this.playerKing, GameUtils.getCoordinateAtPosition("c1"), (Rook) queenRook, GameUtils.getCoordinateAtPosition("d1")));
 				}
 			}
 		}

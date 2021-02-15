@@ -31,7 +31,7 @@ public class FenUtilities {
 	}
 	
 	private static Board parseFEN(final String fenString) {
-		final String[] fenPartitions = fenString.trim().split( " ");
+		final String[] fenPartitions = fenString.trim().split(" ");
 		final Builder builder = new Builder();
 		final boolean whiteKingSideCastle = whiteKingSideCastle(fenPartitions[2]);
 		final boolean whiteQueenSideCastle = whiteQueenSideCastle(fenPartitions[2]);
@@ -52,53 +52,51 @@ public class FenUtilities {
 		while(i < boardTiles.length) {
 			switch(boardTiles[i]) {
 			case 'r':
-				builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, i, Color.BLACK, true, null));
 				i++;
 				break;
 			case 'n':
-				builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, i, Color.BLACK, true, null));
 				i++;
 				break;
 			case 'b':
-				builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, i, Color.BLACK, true, null));
 				i++;
 				break;
 			case 'k':
-				final boolean isCastled = !blackKingSideCastle && !blackQueenSideCastle;
-				builder.setPiece(PieceFactory.createPiece(PieceType.KING, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.KING, i, Color.BLACK, true, false));
 				i++;
 				break;
 			case 'q':
-				builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, i, Color.BLACK, true, null));
 				i++;
 				break;
 			case 'p':
-				builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, i, Color.BLACK, true, null));
 				i++;
 				break;
 			case 'R':
-				builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, i, Color.WHITE, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, i, Color.WHITE, true, null));
 				i++;
 				break;
 			case 'N':
-				builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, i, Color.WHITE, true, null));
 				i++;
 				break;
 			case 'B':
-				builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, i, Color.WHITE, true, null));
 				i++;
 				break;
 			case 'K':
-				final boolean isCastledW = !whiteKingSideCastle && !whiteQueenSideCastle;
-				builder.setPiece(PieceFactory.createPiece(PieceType.KING, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.KING, i, Color.WHITE, true, false));
 				i++;
 				break;
 			case 'Q':
-				builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, i, Color.WHITE, true, null));
 				i++;
 				break;
 			case 'P':
-				builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, i, Color.BLACK, true));
+				builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, i, Color.WHITE, true, null));
 				i++;
 				break;
 			case '-':
@@ -167,6 +165,11 @@ public class FenUtilities {
 		
 		return retVal;
 	}
+	
+	/*
+	 * private static String createFenFromPGNString(String pgnString) { //String[]
+	 * moves = pgnString.split(pgnString) }
+	 */
 	
 	private static String calculateBoardText(final Board board) {
 		final StringBuffer sb = new StringBuffer();

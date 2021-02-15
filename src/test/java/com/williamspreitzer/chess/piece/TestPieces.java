@@ -29,15 +29,15 @@ public class TestPieces {
 	@BeforeEach
 	private void setup() {
 		builder = new Builder();
-		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 3, Color.BLACK, false));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 60, Color.WHITE, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 3, Color.BLACK, false, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 60, Color.WHITE, false, false));
 		builder.setMoveMaker(Color.WHITE);
 	}
 
     @Test
     public void testMiddleQueenOnEmptyBoard() {
     	
-        builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 36, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 36, Color.WHITE, false, null));
         final Board board = builder.build();
 
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
@@ -76,8 +76,8 @@ public class TestPieces {
     @Test
     public void testLegalMoveAllAvailable() {
 
-        builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 28, Color.BLACK, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 36, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 28, Color.BLACK, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 36, Color.WHITE, false, null));
         final Board board = builder.build();
         
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
@@ -146,8 +146,8 @@ public class TestPieces {
     @Test
     public void testKnightInCorners() {
         
-        builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 0, Color.BLACK, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 56, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 0, Color.BLACK, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 56, Color.WHITE, false, null));
         
         final Board board = builder.build();
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
@@ -175,7 +175,7 @@ public class TestPieces {
 
     @Test
     public void testMiddleBishopOnEmptyBoard() {
-        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 35, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 35, Color.WHITE, false, null));
         builder.setMoveMaker(Color.WHITE);
         final Board board = builder.build();
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
@@ -198,7 +198,7 @@ public class TestPieces {
 
     @Test
     public void testTopLeftBishopOnEmptyBoard() {
-        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 0, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 0, Color.WHITE, false, null));
         
         final Board board = builder.build();
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
@@ -226,7 +226,7 @@ public class TestPieces {
 
     @Test
     public void testTopRightBishopOnEmptyBoard() {
-        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 7, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 7, Color.WHITE, false, null));
         final Board board = builder.build();
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
         final Collection<Move> blackLegals = board.getBlackPlayer().getPlayerLegalMoves();
@@ -250,7 +250,7 @@ public class TestPieces {
 
     @Test
     public void testBottomLeftBishopOnEmptyBoard() {
-        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 56, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 56, Color.WHITE, false, null));
         final Board board = builder.build();
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
         final Collection<Move> blackLegals = board.getBlackPlayer().getPlayerLegalMoves();
@@ -274,7 +274,7 @@ public class TestPieces {
 
     @Test
     public void testBottomRightBishopOnEmptyBoard() {
-        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 63, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 63, Color.WHITE, false, null));
         final Board board = builder.build();
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
         final Collection<Move> blackLegals = board.getBlackPlayer().getPlayerLegalMoves();
@@ -298,7 +298,7 @@ public class TestPieces {
 
     @Test
     public void testMiddleRookOnEmptyBoard() {
-        builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 36, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 36, Color.WHITE, false, null));
         final Board board = builder.build();
         final Collection<Move> whiteLegals = board.getWhitePlayer().getPlayerLegalMoves();
         final Collection<Move> blackLegals = board.getBlackPlayer().getPlayerLegalMoves();
@@ -334,8 +334,8 @@ public class TestPieces {
 
     @Test
     public void testPawnPromotion() {
-        builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 5, Color.BLACK, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 15, Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 5, Color.BLACK, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 15, Color.WHITE, false, null));
         final Board board = builder.build();
         final Move m1 = MoveFactory.createNonAttackingMove(MoveType.PAWN_PROMOTION_MOVE, board, board.getTile(GameUtils.getCoordinateAtPosition("h7")).getPiece(), GameUtils.getCoordinateAtPosition("h8"));
         final MoveTransition t1 = board.getCurrentPlayer().makeMove(m1);
@@ -350,8 +350,8 @@ public class TestPieces {
     @Test
     public void testSimpleWhiteEnPassant() {
         
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true));
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true, null));
 
         final Board board = builder.build();
         final Move m1 = MoveFactory.createNonAttackingMove(MoveType.PAWN_JUMP_MOVE, board, board.getTile(GameUtils.getCoordinateAtPosition("e2")).getPiece(), GameUtils.getCoordinateAtPosition("e4"));
@@ -378,8 +378,8 @@ public class TestPieces {
 
     @Test
     public void testSimpleBlackEnPassant() {
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true));
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true, null));
         final Board board = builder.build();
         
         final Move m1 = MoveFactory.createNonAttackingMove(MoveType.MAJOR_MOVE, board, board.getTile(GameUtils.getCoordinateAtPosition("e1")).getPiece(), GameUtils.getCoordinateAtPosition("d1"));

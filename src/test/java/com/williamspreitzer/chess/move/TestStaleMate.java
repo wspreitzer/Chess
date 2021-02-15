@@ -35,14 +35,14 @@ public class TestStaleMate {
 
         final Builder builder = new Builder();
         // Black Layout
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("g7"), Color.BLACK, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("f6"), Color.BLACK, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e4"), Color.BLACK, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("g7"), Color.BLACK, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("f6"), Color.BLACK, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e4"), Color.BLACK, false, null));
         
         // White Layout
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("f5"), Color.WHITE, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("h4"), Color.WHITE, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("h5"), Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("f5"), Color.WHITE, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("h4"), Color.WHITE, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("h5"), Color.WHITE, false, null));
         // Set the current player
         builder.setMoveMaker(Color.BLACK);
         final Board board = builder.build();
@@ -63,11 +63,11 @@ public class TestStaleMate {
     public void testAnonymousStaleMate() {
         final Builder builder = new Builder();
         // Black Layout
-        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("c8"), Color.BLACK, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("c8"), Color.BLACK, false, null));
 
         // White Layout
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("c7"), Color.WHITE, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("c5"), Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("c7"), Color.WHITE, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("c5"), Color.WHITE, false, null));
  
         // Set the current player
         builder.setMoveMaker(Color.WHITE);
@@ -90,12 +90,12 @@ public class TestStaleMate {
         final Builder builder = new Builder();
         
         // Black Layout
-        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("a8"), Color.BLACK, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("a8"), Color.BLACK, false, null));
         
         // White Layout
-        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("a6"), Color.WHITE, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("b6"), Color.WHITE, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("d6"), Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("a6"), Color.WHITE, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("b6"), Color.WHITE, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("d6"), Color.WHITE, false, null));
         
         // Set the current player
         builder.setMoveMaker(Color.WHITE);

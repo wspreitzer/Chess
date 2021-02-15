@@ -26,9 +26,9 @@ public class BishopTest {
 	@BeforeEach
 	private void setup() {
 		
-		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("d8"), Color.BLACK, false);
-		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("d1"), Color.WHITE, false);
-		bishop = (Bishop) PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false);
+		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("d8"), Color.BLACK, false, false);
+		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("d1"), Color.WHITE, false, false);
+		bishop = (Bishop) PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false, false);
 		builder = new Builder();
 		builder.setPiece(blackKing);
 		builder.setPiece(whiteKing);
@@ -54,11 +54,21 @@ public class BishopTest {
 	
 	@Test
 	public void testTopRightBishopWithPieceInTheWay() {
-		bishop = (Bishop) PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("h8"), Color.WHITE,false);
+		bishop = (Bishop) PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("h8"), Color.WHITE,false, null);
 		builder.setPiece(bishop);
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false, null));
 		board = builder.build();
 		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("c3")).getBoard());
+	}
+	
+	@Test
+	public void testIsEighthColumnExclusion() {
+		
+	}
+	
+	@Test
+	public void testIsFirstColumnExclusion()  {
+		
 	}
 	
 	private MoveStatus doMove(int position, int destination) {

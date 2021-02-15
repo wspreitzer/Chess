@@ -9,6 +9,8 @@ public class GameConstants {
 	public static final Color LIGHT_TILE_COLOR = Color.decode(GameUtils.props.getProperty("color.lightTile"));
 	public static final Color DARK_TILE_COLOR = Color.decode(GameUtils.props.getProperty("color.darkTile"));
 	public static final String NEXT_BEST_MOVE_QUERY = createSqlQuery();
+	public static final int ISOLATED_PAWN_PENALTY = -10;
+    public static final int DOUBLED_PAWN_PENALTY = -10;
 
 	private static String createSqlQuery() {
 		StringBuffer sb = new StringBuffer();

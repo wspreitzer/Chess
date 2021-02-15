@@ -24,9 +24,9 @@ public class QueenTest {
 	
 	@BeforeEach
 	private void setup() {
-		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false);
-		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false);
-		queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false);
+		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false, null);
+		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false, null);
+		queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false, null);
 		builder = new Builder();
 		builder.setPiece(blackKing);
 		builder.setPiece(whiteKing);
@@ -83,18 +83,18 @@ public class QueenTest {
 	
 	@Test
 	public void testTopQueenWithPieceInWay() {
-		queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("h8"), Color.WHITE, false);
+		queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("h8"), Color.WHITE, false, null);
 		builder.setPiece(queen);
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("d4"), Color.WHITE, false, null));
 		board = builder.build();
 		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("c3")).getBoard());
 	}
 	
 	@Test
 	public void testTopQueenWithBlackPieceInWay() {
-		queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("h8"), Color.WHITE, false);
+		queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("h8"), Color.WHITE, false, null);
 		builder.setPiece(queen);
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("h3"), Color.BLACK, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("h3"), Color.BLACK, false, null));
 		board = builder.build();
 		Assertions.assertNull(MoveFactory.getMove(board, GameUtils.getCoordinateAtPosition("h8"), GameUtils.getCoordinateAtPosition("h2")).getBoard());
 	}

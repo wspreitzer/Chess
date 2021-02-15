@@ -1,10 +1,14 @@
-package com.chess.tests;
+package com.williamspreitzer.chess;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({TestPieces.class,
+import com.williamspreitzer.chess.board.TestBoard;
+import com.williamspreitzer.chess.gui.GUITest;
+import com.williamspreitzer.chess.pgn.PGNTestSuite;
+import com.williamspreitzer.chess.player.TestPlayer;
+import com.williamspreitzer.chess.player.ai.AITestSuite;
+
+/*@Suite.SuiteClasses({TestPieces.class,
                      TestBoard.class,
                      TestStaleMate.class,
                      TestPlayer.class,
@@ -15,6 +19,14 @@ import org.junit.runners.Suite;
                      TestPawnStructure.class,
                      TestFENParser.class,
                      TestEngine.class
-                     /*TestPGNParser.class*/})
+                     TestPGNParser.class})*/
+
+@SelectClasses({TestBoard.class, 
+				GUITest.class, 
+				MoveTestSuite.class, 
+				PGNTestSuite.class, 
+				TestPlayer.class, 
+				AITestSuite.class})
+
 public class ChessTestSuite {
 }

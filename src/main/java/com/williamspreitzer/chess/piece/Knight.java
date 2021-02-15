@@ -34,28 +34,25 @@ public class Knight implements Piece {
 	public Collection<Move> calculateLegalMoves(Board board) {
 		List<Move> legalMoves = new ArrayList<Move>();
 		for(int currentCandidateOffset : MOVE_COORDINATES) {
-			int destinationCoordinate = this.position;
-			if(true) {
-				if(isFirstColumnExclusion(this.position, currentCandidateOffset ) ||
-				   isSecondColumnExclusion(this.position, currentCandidateOffset) ||
-				   isSeventhColumnExclusion(this.position,currentCandidateOffset) ||
-				   isEighthColumnExclusion(this.position, currentCandidateOffset)) {
-					continue;
-				}
-				destinationCoordinate += currentCandidateOffset;
-				if(GameUtils.isValidTileCoordinate(destinationCoordinate)) {
-					Tile destinationTile = board.getTile(destinationCoordinate);
-					if(!destinationTile.isTileOccupied()) {
-						legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.MAJOR_MOVE, board, this, destinationCoordinate));
-					} else {
-						Piece pieceAtDestination = destinationTile.getPiece();
-						Color pieceColor = pieceAtDestination.getColor();
-						if(this.getColor() != pieceColor ) {
-							legalMoves.add(MoveFactory.createAttackMove(MoveType.MAJOR_ATTACK_MOVE, board, this, destinationCoordinate, pieceAtDestination));
-						} 
-					}
-				} 
+			if(isFirstColumnExclusion(this.position, currentCandidateOffset ) ||
+			   isSecondColumnExclusion(this.position, currentCandidateOffset) ||
+			   isSeventhColumnExclusion(this.position,currentCandidateOffset) ||
+			   isEighthColumnExclusion(this.position, currentCandidateOffset)) {
+				continue;
 			}
+			final int destinationCoordinate = this.position + currentCandidateOffset;
+			if(GameUtils.isValidTileCoordinate(destinationCoordinate)) {
+				Tile destinationTile = board.getTile(destinationCoordinate);
+				if(!destinationTile.isTileOccupied()) {
+					legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.MAJOR_MOVE, board, this, destinationCoordinate));
+				} else {
+					Piece pieceAtDestination = destinationTile.getPiece();
+					Color pieceColor = pieceAtDestination.getColor();
+					if(this.getColor() != pieceColor ) {
+						legalMoves.add(MoveFactory.createAttackMove(MoveType.MAJOR_ATTACK_MOVE, board, this, destinationCoordinate, pieceAtDestination));
+					} 
+				}
+			} 
 		}
 		return legalMoves;
 	}
@@ -65,7 +62,7 @@ public class Knight implements Piece {
 	}
 	
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(), false);
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(), false, null);
 	}
 	
 	@Override

@@ -1,10 +1,13 @@
 package com.williamspreitzer.chess.utils;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,7 +18,12 @@ import java.util.Properties;
 
 import com.williamspreitzer.chess.board.Board;
 import com.williamspreitzer.chess.moves.Move;
+import com.williamspreitzer.chess.moves.MoveFactory;
+import com.williamspreitzer.chess.moves.MoveTransition;
+import com.williamspreitzer.chess.moves.MoveType;
+import com.williamspreitzer.chess.piece.King;
 import com.williamspreitzer.chess.piece.Piece;
+import com.williamspreitzer.chess.piece.PieceType;
 
 public class GameUtils {
 
@@ -161,6 +169,42 @@ public class GameUtils {
 	public static boolean isEndGame(final Board board) {
 		return board.getCurrentPlayer().isInCheckMate() ||
 			   board.getCurrentPlayer().isInStaleMate();
+	}
+	
+	public static boolean kingThreat(final Move move) {
+		final Board board = move.getBoard();
+		final MoveTransition trans = board.getCurrentPlayer().makeMove(move);
+		return trans.getBoard().getCurrentPlayer().isInCheck();
+	}
+	
+	public static boolean isKingPawnTrap(final Board board, final King king, final int frontTile) {
+		final Piece piece = board.getTile(frontTile).getPiece();
+		return piece != null && piece.getType() == PieceType.PAWN && 
+				piece.getColor() != king.getColor();
+	}
+	
+	public static int mvvlva(final Move move) {
+		int retVal;
+		final Piece movingPiece = move.getMovedPiece();
+		if(move.isAttack()) {
+			final Piece attackedPiece = move.getBoard().getTile(move.getDestinationCoordinate()).getPiece();
+			retVal = (attackedPiece.getPieceValue() - movingPiece.getPieceValue());
+		} else {
+			retVal = PieceType.KING.getPieceValue() - movingPiece.getPieceValue();
+		}
+		return retVal;
+	}
+	
+	public static List<Move> lastNMoves(final Board board, int N) {
+		final List<Move> moveHistory = new ArrayList<Move>();
+		Move currentMove = board.getTransitionMove();
+		int i = 0;
+		while(currentMove != MoveFactory.createNonAttackingMove(MoveType.NULL_MOVE, null, null, -1) && i < N) {
+			moveHistory.add(currentMove);
+			currentMove = currentMove.getBoard().getTransitionMove();
+			i++;
+		}
+		return Collections.unmodifiableList(moveHistory);
 	}
 	
 	public static boolean isThreatenedBoardImmediate(final Board board) { 

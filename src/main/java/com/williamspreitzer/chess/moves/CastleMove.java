@@ -51,6 +51,7 @@ public abstract class CastleMove implements Move {
 		for(Piece piece : this.board.getCurrentPlayer().getOpponent().getActivePieces()) {
 			builder.setPiece(piece);
 		}
+		
 		this.movedPiece.setFirstMove(false);
 		this.rook.setFirstMove(false);
 		builder.setPiece(this.movedPiece.movePiece(this));

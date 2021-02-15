@@ -29,8 +29,8 @@ public class KnightTest {
 	
 	@BeforeEach
 	private void setup() {
-		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false);
-		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false);
+		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false, false);
+		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false, false);
 		builder = new Builder();
 		builder.setPiece(blackKing);
 		builder.setPiece(whiteKing);
@@ -40,8 +40,8 @@ public class KnightTest {
 	
 	@Test
 	public void testKnightsInHomeCorners() {
-		Knight queensKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("a8"), Color.BLACK, false);
-		Knight kingsKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("h8"), Color.BLACK, false);
+		Knight queensKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("a8"), Color.BLACK, false, null);
+		Knight kingsKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("h8"), Color.BLACK, false, null);
 		builder.setPiece(kingsKnight);
 		builder.setPiece(queensKnight);
 		board = builder.build();
@@ -56,8 +56,8 @@ public class KnightTest {
 	
 	@Test
 	public void testKnightsInOpponentCorners() {
-		Knight queensKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("a1"), Color.BLACK, false);
-		Knight kingsKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("h1"), Color.BLACK, false);
+		Knight queensKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("a1"), Color.BLACK, false, null);
+		Knight kingsKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("h1"), Color.BLACK, false, null);
 		builder.setPiece(kingsKnight);
 		builder.setPiece(queensKnight);
 		board = builder.build();
@@ -72,7 +72,7 @@ public class KnightTest {
 	
 	@Test
 	public void testKnightInMiddleOfBoard() {
-		Knight knight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("d4"), Color.BLACK, false);
+		Knight knight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("d4"), Color.BLACK, false, null);
 		builder.setPiece(knight);
 		board = builder.build();
 		final Move[] moves = new Move[] { this.createMove(knight, knight.getPosition(), knight.getPosition() + Color.WHITE.getDirection() * 17),

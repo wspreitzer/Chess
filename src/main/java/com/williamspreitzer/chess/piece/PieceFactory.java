@@ -4,7 +4,7 @@ import com.williamspreitzer.chess.Color;
 
 public class PieceFactory {
 
-	public static Piece createPiece(PieceType type, int position, Color color, boolean isFirstMove) {
+	public static Piece createPiece(PieceType type, int position, Color color, boolean isFirstMove, Boolean isCastled) {
 		Piece retPiece = null;
 		switch(type) {
 		case ROOK:
@@ -20,7 +20,7 @@ public class PieceFactory {
 			retPiece = new Queen(position, color, isFirstMove);
 			break;
 		case KING:
-			retPiece = new King(position, color, isFirstMove);
+			retPiece = new King(position, color, isFirstMove, Boolean.valueOf(isCastled));
 			break;
 		case PAWN:
 			retPiece = new Pawn(position, color, isFirstMove);

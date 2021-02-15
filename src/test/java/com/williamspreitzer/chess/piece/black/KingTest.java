@@ -1,11 +1,9 @@
-package com.williamspreitzer.chess.piece.black;
+	package com.williamspreitzer.chess.piece.black;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
@@ -14,6 +12,7 @@ import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveStatus;
 import com.williamspreitzer.chess.moves.MoveTransition;
+import com.williamspreitzer.chess.pgn.FenUtilities;
 import com.williamspreitzer.chess.piece.King;
 import com.williamspreitzer.chess.piece.PieceFactory;
 import com.williamspreitzer.chess.piece.PieceType;
@@ -29,8 +28,8 @@ public class KingTest {
 	
 	@BeforeEach
 	private void setup() {
-		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("d4"), Color.BLACK, false);
-		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false);
+		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("d4"), Color.BLACK, false, false);
+		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false, false);
 		builder = new Builder();
 		builder.setMoveMaker(Color.BLACK);
 		builder.setPiece(blackKing);
@@ -65,17 +64,23 @@ public class KingTest {
 	
 	@Test
 	public void leavesPlayerInCheck() {
-		Queen queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("c3"), Color.WHITE, false);
+		Queen queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("c3"), Color.WHITE, false, null);
 		builder.setPiece(queen);
 		assertEquals(MoveStatus.LEAVES_PLAYER_IN_CHECK, this.doMove(builder, blackKing, 8));
 	}
 	
 	@Test
 	public void testKingSafteyAnalyzer() {
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 12, Color.BLACK, false));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 12, Color.BLACK, false, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, false, null));
 		final Board board = builder.build();
 		assertEquals(10, KingSafetyAnalyzer.getKingSafetyAnalyzer().calculateKingTropism(board.getBlackPlayer()).tropismScore());
+	}
+	
+	@Test
+	public void testIsEighthColumnExclusion() {
+		final Board board = FenUtilities.createGameFromFEN("k/8/8/8/8/8/8/7K -b - - 1 0");
+		assertEquals(3, board.getBlackPlayer().getPlayerLegalMoves().size());
 	}
 	
 	private MoveStatus doMove(Builder builder, King king, int offSet) {

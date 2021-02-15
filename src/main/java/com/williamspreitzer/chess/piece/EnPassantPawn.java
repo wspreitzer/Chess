@@ -45,7 +45,7 @@ public class EnPassantPawn implements Piece{
 	}
 
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(),  move.getMovedPiece().getColor(), false);
+		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(),  move.getMovedPiece().getColor(), false, null);
 	}
 	
 	@Override

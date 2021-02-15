@@ -75,9 +75,8 @@ public class Pawn implements Piece {
 					break;
 				case 16:
 					Tile jumpedTile = board.getTile(this.position + (this.color.getDirection() * 8));
-					if (this.isFirstMove && (!jumpedTile.isTileOccupied())
-							&& (GameUtils.SEVENTH_RANK.get(this.position) && this.getColor().isBlack())
-							|| (GameUtils.SECOND_RANK.get(this.position) && this.getColor().isWhite())) {
+					if ((this.isFirstMove && !jumpedTile.isTileOccupied()) && 
+							(GameUtils.SEVENTH_RANK.get(this.position) && this.color.isBlack() || GameUtils.SECOND_RANK.get(this.position) && this.color.isWhite())) {
 						legalMoves.add(MoveFactory.createNonAttackingMove(MoveType.PAWN_JUMP_MOVE, board, this,
 								destinationCoordinate));
 					}
@@ -159,7 +158,7 @@ public class Pawn implements Piece {
 
 	public Piece movePiece(Move move) {
 		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(),
-				move.getMovedPiece().getColor(), false);
+				move.getMovedPiece().getColor(), false, null);
 	}
 
 	@Override

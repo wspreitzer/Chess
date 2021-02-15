@@ -24,21 +24,28 @@ public class King implements Piece{
 	private boolean queenSideCastleCapable;
 	private boolean isCastled;
 	
-	King(int position, Color color, boolean isFirstMove) {
+	King(int position, Color color, boolean isFirstMove, boolean isCastled) {
 		this.position = position;
 		this.color = color;
 		this.isFirstMove = isFirstMove;
+		this.isCastled = isCastled;
 		this.cachedHashCode = this.computeHashCode();
-		this.isCastled = false;
-		this.kingSideCastleCapable = true;
-		this.queenSideCastleCapable = true;
-		
+		if(this.isFirstMove) {
+			this.kingSideCastleCapable = true;
+			this.queenSideCastleCapable = true;
+		} else {
+			this.kingSideCastleCapable = false;
+			this.queenSideCastleCapable = false;
+		}
 	}
 	
 	public boolean isCastled() {
 		return this.isCastled;
 	}
 	
+	public void setIsCastled() {
+		this.isCastled = true;
+	}
 	public Color getColor() {
 		return color;
 	}
@@ -69,7 +76,7 @@ public class King implements Piece{
 			int destinationCoordinate = this.position;
 			if(isFirstColumnExclusion(destinationCoordinate, coordinate) ||
 			   isEighthColumnExclusion(destinationCoordinate, coordinate)) {
-				break;
+				continue;
 			}
 			
 			destinationCoordinate += coordinate;
@@ -129,15 +136,37 @@ public class King implements Piece{
 	}
 	
 	private boolean isFirstColumnExclusion(int currentPosition, int candidateOffset) {
-		return GameUtils.FIRST_COLUMN.get(currentPosition) && (candidateOffset == -9 || candidateOffset == 7);
+		return GameUtils.FIRST_COLUMN.get(currentPosition) && ((candidateOffset == -9) || (candidateOffset == -1) || (candidateOffset == 7));
 	}
 	
 	private boolean isEighthColumnExclusion(int currentPosition, int candidateOffset) {
-		return GameUtils.EIGHTH_COLUMN.get(currentPosition) && (candidateOffset == -7 || candidateOffset == 9);
+		return GameUtils.EIGHTH_COLUMN.get(currentPosition) && ((candidateOffset == -7) || (candidateOffset == 1) || (candidateOffset == 9));
 	}
 
 	public Piece movePiece(Move move) {
-		return PieceFactory.createPiece(move.getMovedPiece().getType(), move.getDestinationCoordinate(), move.getMovedPiece().getColor(), false);
+		Piece retVal = null;
+		switch(move.getType()) {
+		case KING_SIDE_CASTLE_MOVE: case QUEEN_SIDE_CASTLE_MOVE:
+			retVal  = PieceFactory.createPiece(move.getMovedPiece().getType(), move.getCurrentCoordinate(), 
+					move.getMovedPiece().getColor(), false, true);
+			break;
+		default:
+			retVal = PieceFactory
+			.createPiece(
+					move
+					.getMovedPiece()
+					.getType(), 
+					move.getDestinationCoordinate(), 
+					move.getMovedPiece().getColor(), 
+					false, 
+					move
+					  .getBoard()
+					  .getCurrentPlayer()
+					  .getPlayerKing()
+					  .isCastled);
+		}
+		
+		return retVal;
 	}
 
 	@Override

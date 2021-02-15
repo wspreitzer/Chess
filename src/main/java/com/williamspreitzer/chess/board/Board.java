@@ -12,6 +12,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.moves.Move;
+import com.williamspreitzer.chess.moves.MoveFactory;
+import com.williamspreitzer.chess.moves.MoveType;
 import com.williamspreitzer.chess.piece.Pawn;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.PieceFactory;
@@ -30,6 +32,7 @@ public class Board {
 	private final BlackPlayer blackPlayer;
 	private final Player currentPlayer;
 	private final Pawn enPassantPawn;
+	private final Move transitionMove;
 	
 	private Board(Builder builder) {
 		this.gameBoard = createGameBoard(builder);
@@ -41,6 +44,7 @@ public class Board {
 		this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
 		this.blackPlayer = new BlackPlayer(this, blackStandardLegalMoves, whiteStandardLegalMoves);
 		this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
+		this.transitionMove = builder.transitionMove != null ? builder.transitionMove : MoveFactory.createNonAttackingMove(MoveType.NULL_MOVE, null, null, -1);
 	}
 
 	private static Collection<Piece> calculateActivePieces(List<Tile> gameBoard, Color color) {
@@ -70,6 +74,10 @@ public class Board {
 
 	public Player getCurrentPlayer() {
 		return this.currentPlayer;
+	}
+	
+	public Move getTransitionMove() {
+		return this.transitionMove;
 	}
 
 	private static List<Tile> createGameBoard(Builder builder) {
@@ -117,48 +125,40 @@ public class Board {
 		return this.blackPlayer;
 	}
 
-	public static Board createTestBoard(Piece ...pieces) { 
-		Builder builder = new Builder();
-		for(Piece piece : pieces) {
-			builder.setPiece(piece);
-		}
-		builder.setMoveMaker(Color.WHITE);
-		return builder.build();
-	}
 	public static Board createStandardBoard() {
 		Builder builder = new Builder();
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 0, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 1, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 2, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 3, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 4, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 5, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 6, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 7, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 8, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 9, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 10, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 12, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 13, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 14, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 15, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 48, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 49, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 50, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 51, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 53, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 54, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 55, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 56, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 57, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 58, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 59, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 60, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 61, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 62, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 63, Color.WHITE, true));
+		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 0, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 1, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 2, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 3, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 4, Color.BLACK, true, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 5, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 6, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 7, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 8, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 9, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 10, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 12, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 13, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 14, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 15, Color.BLACK, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 48, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 49, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 50, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 51, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 53, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 54, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 55, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 56, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 57, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 58, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 59, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 60, Color.WHITE, true, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 61, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 62, Color.WHITE, true, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 63, Color.WHITE, true, null));
 		builder.setMoveMaker(Color.WHITE);
 		return builder.build();
 	}
@@ -173,6 +173,7 @@ public class Board {
 		Color nextMoveMaker;
 		Pawn enPassantPawn;
 		Piece promotionPiece;
+		Move transitionMove;
 		
 		public Builder() {
 			this.boardConfig = new HashMap<Integer, Piece>();
@@ -185,6 +186,11 @@ public class Board {
 
 		public Builder setMoveMaker(Color nextMoveMaker) {
 			this.nextMoveMaker = nextMoveMaker;
+			return this;
+		}
+		
+		public Builder setMoveTransition(final Move transitionMove) {
+			this.transitionMove = transitionMove;
 			return this;
 		}
 

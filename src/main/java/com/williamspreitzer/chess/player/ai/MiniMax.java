@@ -8,10 +8,12 @@ public class MiniMax {
 
 	private final BoardEvaluator evaluator;
 	private final int depth;
+	private int numBoardsEvaluated;
 	
 	public MiniMax(StandardBoardEvaluator evaluator, final int depth) {
 		this.evaluator = evaluator.getEvaluator();
 		this.depth = depth;
+		this.numBoardsEvaluated = 0;
 	}
 
 	@Override
@@ -30,9 +32,6 @@ public class MiniMax {
 			int counter = 0;
 			System.out.println(board.getCurrentPlayer() + " thinking with depth of " + depth + " and " + numMoves + " moves");
 			for (final Move move : board.getCurrentPlayer().getPlayerLegalMoves()) {
-				if(counter == 5) {
-					System.out.println("this is the checkmate move");
-				}
 				System.out.println("Thinking about " + move);
 				final MoveTransition trans = board.getCurrentPlayer().makeMove(move);
 				if (trans.getStatus().isDone()) {
@@ -59,7 +58,10 @@ public class MiniMax {
 
 	public int min(final Board board, final int depth) {
 		int retVal;
-		if (depth == 0 || BoardEvaluator.isGameOver(board)) {
+		if (depth == 0) {
+			this.numBoardsEvaluated++;
+			retVal = this.evaluator.evaluate(board, depth);
+		} else if (BoardEvaluator.isGameOver(board)) {
 			retVal = this.evaluator.evaluate(board, depth);
 		} else {
 			int lowestSeenValue = Integer.MAX_VALUE;
@@ -79,7 +81,10 @@ public class MiniMax {
 
 	public int max(final Board board, final int depth) {
 		int retVal;
-		if (depth == 0 || BoardEvaluator.isGameOver(board)) {
+		if (depth == 0) {
+			this.numBoardsEvaluated++;
+			retVal = this.evaluator.evaluate(board, depth);
+		} else if (BoardEvaluator.isGameOver(board)) {
 			retVal = this.evaluator.evaluate(board, depth);
 		} else {
 			int highestSeenValue = Integer.MIN_VALUE;
@@ -95,5 +100,9 @@ public class MiniMax {
 			retVal = highestSeenValue;
 		}
 		return retVal;
+	}
+
+	public long getNumBoardsEvaluated() {
+		return this.numBoardsEvaluated;
 	}
 }

@@ -42,18 +42,15 @@ public class BlackPlayer extends Player {
 		List<Move> kingCastles = new ArrayList<Move>();
 		if(this.playerKing.isFirstMove() && !this.isInCheck()) {
 			if(GameUtils.isTilesEmpty(this.board, 1,2,3) && !GameUtils.areTilesBeingAttacked(opponentLegalMoves, 1, 2, 3)) {
-				final Rook rook = (Rook) this.board.getTile(0).getPiece();
-				if(rook != null) {
-					if(this.board.getTile(rook.getPosition()).isTileOccupied() && rook.isFirstMove()) {
-						kingCastles.add(MoveFactory.createCastleMove(MoveType.QUEEN_SIDE_CASTLE_MOVE, board, this.playerKing, 2, (Rook) rook, 3));
-					}
+				final Piece queenRook = this.board.getTile(GameUtils.getCoordinateAtPosition("a8")).getPiece();
+				if(queenRook instanceof Rook && queenRook.isFirstMove()) {
+						kingCastles.add(MoveFactory.createCastleMove(MoveType.QUEEN_SIDE_CASTLE_MOVE, board, this.playerKing, 2, (Rook) queenRook, 3));
 				}
-			} else if(GameUtils.isTilesEmpty(this.board, 5,6) && !GameUtils.areTilesBeingAttacked(opponentLegalMoves, 5, 6)) {
-				final Rook rook = (Rook) this.board.getTile(7).getPiece();
-				if(rook != null) {
-					if(this.board.getTile(rook.getPosition()).isTileOccupied() && rook.isFirstMove()) {
-						kingCastles.add(MoveFactory.createCastleMove(MoveType.KING_SIDE_CASTLE_MOVE, board, this.playerKing, 6, rook, 5));
-					}
+			} 
+			if(GameUtils.isTilesEmpty(this.board, 5,6) && !GameUtils.areTilesBeingAttacked(opponentLegalMoves, 5, 6)) {
+				final Piece kingRook = this.board.getTile(GameUtils.getCoordinateAtPosition("h8")).getPiece();
+				if(kingRook instanceof Rook && kingRook.isFirstMove()) {
+						kingCastles.add(MoveFactory.createCastleMove(MoveType.KING_SIDE_CASTLE_MOVE, board, this.playerKing, 6, (Rook) kingRook, 5));
 				}
 			}
 		}

@@ -31,9 +31,9 @@ public class PawnTest {
 	
 	@BeforeEach
 	private void setup() {
-		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false);
-		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false);
-		pawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e2"), Color.WHITE, true);
+		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false, false);
+		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false, false);
+		pawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e2"), Color.WHITE, true, null);
 		builder = new Builder();
 		builder.setPiece(blackKing);
 		builder.setPiece(whiteKing);
@@ -52,7 +52,7 @@ public class PawnTest {
 		int[] offsets = {7, 9};
 		
 		for (int offset : offsets) {
-			attackedPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e2") - offset, Color.BLACK, false);
+			attackedPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e2") - offset, Color.BLACK, false, null);
 			builder.setPiece(attackedPawn);
 			Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, pawn, offset));
 		}
@@ -61,10 +61,10 @@ public class PawnTest {
 	@Test
 	void pawnPromotionTest() {
 		Knight attackedKnight = null;
-		Pawn attackingPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("b7"), Color.WHITE, false);
+		Pawn attackingPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("b7"), Color.WHITE, false, null);
 		int [] offsets = {7,9};
 		for (int offset : offsets) {
-			attackedKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("b7") - offset, Color.BLACK, false);
+			attackedKnight = (Knight) PieceFactory.createPiece(PieceType.KNIGHT, GameUtils.getCoordinateAtPosition("b7") - offset, Color.BLACK, false, null);
 			builder.setPiece(attackedKnight);
 			Assertions.assertEquals(MoveStatus.DONE, this.doMove(builder, attackingPawn, offset));
 		}
@@ -73,8 +73,8 @@ public class PawnTest {
 	
 	@Test
 	void enPassantAttackTest7() {
-		enPassantPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e5"), Color.BLACK, false);
-		whitePawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("d5"), Color.WHITE, false);
+		enPassantPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e5"), Color.BLACK, false, null);
+		whitePawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("d5"), Color.WHITE, false, null);
 		builder.setPiece(enPassantPawn);
 		builder.setEnPassantPawn(enPassantPawn);
 		builder.setPiece(whitePawn);
@@ -85,8 +85,8 @@ public class PawnTest {
 	
 	@Test
 	void enPassantAttackTest9() {
-		enPassantPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e5"), Color.BLACK, false);
-		whitePawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("f5"), Color.WHITE, false);
+		enPassantPawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("e5"), Color.BLACK, false, null);
+		whitePawn = (Pawn) PieceFactory.createPiece(PieceType.PAWN, GameUtils.getCoordinateAtPosition("f5"), Color.WHITE, false, null);
 		builder.setPiece(enPassantPawn);
 		builder.setEnPassantPawn(enPassantPawn);
 		builder.setPiece(whitePawn);

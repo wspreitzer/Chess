@@ -76,17 +76,17 @@ public class TestPlayer {
 
 		// Black Layout
 		builder.setPiece(
-				PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false));
+				PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false, false));
 		builder.setPiece(
-				PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("a5"), Color.BLACK, false));
+				PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("a5"), Color.BLACK, false, null));
 
 		// White Layout
 		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, GameUtils.getCoordinateAtPosition("e3"),
-				Color.WHITE, false));
+				Color.WHITE, false, null));
 		builder.setPiece(
-				PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("e2"), Color.WHITE, false));
+				PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("e2"), Color.WHITE, false, null));
 		builder.setPiece(
-				PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("c1"), Color.WHITE, false));
+				PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("c1"), Color.WHITE, false, false));
 
 		// Set the current player
 		builder.setMoveMaker(Color.WHITE);

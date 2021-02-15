@@ -16,6 +16,7 @@ import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveTransition;
 import com.williamspreitzer.chess.moves.MoveType;
+import com.williamspreitzer.chess.pgn.FenUtilities;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.PieceFactory;
 import com.williamspreitzer.chess.piece.PieceType;
@@ -32,8 +33,8 @@ public class TestBoard {
 	private void setup() {
 		this.board = Board.createStandardBoard();
 		this.builder = new Builder();
-		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 4, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 60, Color.WHITE, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 4, Color.BLACK, true, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.KING, 60, Color.WHITE, false, false));
 		builder.setMoveMaker(Color.WHITE);
 	}
 
@@ -240,38 +241,9 @@ public class TestBoard {
 	@Test
 	public void testInvalidBoardMissingBlackKing() {
 		builder = new Builder();
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 0, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 1, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 2, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 3, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 5, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 6, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 7, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 8, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 9, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 10, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 11, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 12, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 13, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 14, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 15, Color.BLACK, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 48, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 49, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 50, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 51, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 53, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 54, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 55, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 56, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 57, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 58, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.QUEEN, 59, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.BISHOP, 61, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.KNIGHT, 62, Color.WHITE, true));
-		builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, 63, Color.WHITE, true));
+		String fenTex = "rnbqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR -w KQ - 1 0";
 		assertThrows(RuntimeException.class, () -> {
-			builder.build();
+			FenUtilities.createGameFromFEN(fenTex);
 		});
 	}
 

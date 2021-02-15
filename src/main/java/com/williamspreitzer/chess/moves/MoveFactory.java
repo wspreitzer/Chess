@@ -27,7 +27,7 @@ public class MoveFactory {
 			retMove = new PawnMove(board, movedPiece, destinationCoordinate);
 			break;
 		case PAWN_PROMOTION_MOVE:
-			retMove = new PawnPromotionMove(new PawnMove(board, movedPiece, destinationCoordinate), PieceFactory.createPiece(PieceType.QUEEN, destinationCoordinate, movedPiece.getColor(), true));
+			retMove = new PawnPromotionMove(new PawnMove(board, movedPiece, destinationCoordinate), PieceFactory.createPiece(PieceType.QUEEN, destinationCoordinate, movedPiece.getColor(), false, null));
 			break;
 		case NULL_MOVE:
 			retMove = new NullMove(board, movedPiece, destinationCoordinate);
@@ -47,7 +47,7 @@ public class MoveFactory {
 			retMove = new MajorAttackMove(board, movedPiece, destinationCoordinate, attackedPiece);
 			break;
 		case PAWN_ATTACK_PROMOTION_MOVE:
-			retMove = new PawnAttackPromotionMove(new PawnAttackMove(board, movedPiece, destinationCoordinate, attackedPiece), PieceFactory.createPiece(PieceType.QUEEN, destinationCoordinate, movedPiece.getColor(), true));
+			retMove = new PawnAttackPromotionMove(new PawnAttackMove(board, movedPiece, destinationCoordinate, attackedPiece), PieceFactory.createPiece(PieceType.QUEEN, destinationCoordinate, movedPiece.getColor(), false, null));
 			break;
 		case PAWN_EN_PASSANT_ATTACK_MOVE:
 			retMove = new PawnEnPassantAttackMove(board, movedPiece, destinationCoordinate, attackedPiece);

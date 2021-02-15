@@ -44,7 +44,7 @@ public class PieceUtils {
 		final ImmutableTable.Builder<Color, Integer, Queen> pieces = ImmutableTable.builder();
 		for(final Color color : Color.values()) {
 			for(int i=0; i < GameUtils.NUM_TILES; i++) {
-				pieces.put(color, i, (Queen) PieceFactory.createPiece(PieceType.QUEEN, i, color, false));
+				pieces.put(color, i, (Queen) PieceFactory.createPiece(PieceType.QUEEN, i, color, false, null));
 			}
 		}
 		return pieces.build();
@@ -54,7 +54,7 @@ public class PieceUtils {
 		final ImmutableTable.Builder<Color, Integer, Rook> pieces = ImmutableTable.builder();
 		for(final Color color : Color.values()) {
 			for(int i = 0; i < GameUtils.NUM_TILES; i++) {
-				pieces.put(color, i, (Rook) PieceFactory.createPiece(PieceType.ROOK, i, color, false));
+				pieces.put(color, i, (Rook) PieceFactory.createPiece(PieceType.ROOK, i, color, false, null));
 			}
 		}
 		return pieces.build();
@@ -64,7 +64,7 @@ public class PieceUtils {
 		final ImmutableTable.Builder<Color, Integer, Knight> pieces = ImmutableTable.builder();
 		for(Color color : Color.values()) {
 			for(int i = 0; i < GameUtils.NUM_TILES; i++) {
-				pieces.put(color, i, (Knight) PieceFactory.createPiece(PieceType.KNIGHT, i, color, false));
+				pieces.put(color, i, (Knight) PieceFactory.createPiece(PieceType.KNIGHT, i, color, false, null));
 			}
 		}
 		return pieces.build();
@@ -73,7 +73,7 @@ public class PieceUtils {
 		final ImmutableTable.Builder<Color, Integer, Bishop> pieces = ImmutableTable.builder();
 		for(Color color : Color.values()) {
 			for(int i = 0; i < GameUtils.NUM_TILES; i++) {
-				pieces.put(color, i, (Bishop) PieceFactory.createPiece(PieceType.BISHOP, i, color, false));
+				pieces.put(color, i, (Bishop) PieceFactory.createPiece(PieceType.BISHOP, i, color, false, null));
 			}
 		}
 		return pieces.build();
@@ -82,7 +82,7 @@ public class PieceUtils {
 		final ImmutableTable.Builder<Color, Integer, Pawn> pieces = ImmutableTable.builder();
 		for(Color color : Color.values()) {
 			for(int i = 0; i < GameUtils.NUM_TILES; i++) {
-				pieces.put(color, i, (Pawn) PieceFactory.createPiece(PieceType.PAWN, i, color, false));
+				pieces.put(color, i, (Pawn) PieceFactory.createPiece(PieceType.PAWN, i, color, false, null));
 			}
 		}
 		return pieces.build();

@@ -14,6 +14,7 @@ import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveStatus;
 import com.williamspreitzer.chess.moves.MoveTransition;
+import com.williamspreitzer.chess.pgn.FenUtilities;
 import com.williamspreitzer.chess.piece.King;
 import com.williamspreitzer.chess.piece.PieceFactory;
 import com.williamspreitzer.chess.piece.PieceType;
@@ -30,9 +31,9 @@ public class KingTest {
 	@BeforeEach
 	private void setup() {
 		blackKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"),
-				Color.BLACK, false);
+				Color.BLACK, false, false);
 		whiteKing = (King) PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("d4"),
-				Color.WHITE, false);
+				Color.WHITE, false, false);
 		builder = new Builder();
 		builder.setPiece(blackKing);
 		builder.setPiece(whiteKing);
@@ -67,7 +68,7 @@ public class KingTest {
 	@Test
 	public void testLeavesPlayerInCheck() {
 		Queen queen = (Queen) PieceFactory.createPiece(PieceType.QUEEN, GameUtils.getCoordinateAtPosition("c3"),
-				Color.BLACK, false);
+				Color.BLACK, false, null);
 		builder.setPiece(queen);
 		assertEquals(MoveStatus.LEAVES_PLAYER_IN_CHECK, this.doMove(builder, whiteKing, 8));
 	}
@@ -75,12 +76,25 @@ public class KingTest {
 	@Test
 	public void testKingSafetyAnalyzer() {
 
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 12, Color.BLACK, false));
-		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, false));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 12, Color.BLACK, false, null));
+		builder.setPiece(PieceFactory.createPiece(PieceType.PAWN, 52, Color.WHITE, false, null));
 
 		final Board board = builder.build();
 		assertEquals(20,
 				KingSafetyAnalyzer.getKingSafetyAnalyzer().calculateKingTropism(board.getWhitePlayer()).tropismScore());
+	}
+	
+	@Test
+	public void testIsEighthColumnExclusion() {
+		final Board board = FenUtilities.createGameFromFEN("7k/8/8/8/8/8/8/7K w - - 0 1");
+		assertEquals(3, board.getWhitePlayer().getPlayerLegalMoves().size());
+		assertEquals(3, board.getBlackPlayer().getPlayerLegalMoves().size());
+		
+	}
+	
+	@Test
+	public void testIsFirstColumnExclusion()  {
+		
 	}
 
 	private MoveStatus doMove(Builder builder, King king, int offSet) {

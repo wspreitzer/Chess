@@ -28,12 +28,12 @@ public class TestRookStructure {
         final Builder builder = new Builder();
         
         // Black Layout
-        builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("a8"), Color.BLACK, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("a8"), Color.BLACK, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e8"), Color.BLACK, false, false));
         
         // White Layout
-        builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("h1"), Color.WHITE, false));
-        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false));
+        builder.setPiece(PieceFactory.createPiece(PieceType.ROOK, GameUtils.getCoordinateAtPosition("h1"), Color.WHITE, false, null));
+        builder.setPiece(PieceFactory.createPiece(PieceType.KING, GameUtils.getCoordinateAtPosition("e1"), Color.WHITE, false, false));
         builder.setMoveMaker(Color.WHITE);
         
         // Set the current player

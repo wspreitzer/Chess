@@ -7,11 +7,15 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import com.williamspreitzer.chess.Color;
 import com.williamspreitzer.chess.board.Board;
+import com.williamspreitzer.chess.board.Board.Builder;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveTransition;
 import com.williamspreitzer.chess.moves.MoveType;
 import com.williamspreitzer.chess.pgn.FenUtilities;
+import com.williamspreitzer.chess.piece.PieceFactory;
+import com.williamspreitzer.chess.piece.PieceType;
 import com.williamspreitzer.chess.utils.GameUtils;
 
 

@@ -41,6 +41,7 @@ import com.williamspreitzer.chess.moves.Move;
 import com.williamspreitzer.chess.moves.MoveFactory;
 import com.williamspreitzer.chess.moves.MoveLog;
 import com.williamspreitzer.chess.moves.MoveTransition;
+import com.williamspreitzer.chess.pgn.FenUtilities;
 import com.williamspreitzer.chess.piece.Piece;
 import com.williamspreitzer.chess.piece.PieceFactory;
 import com.williamspreitzer.chess.piece.PieceType;
@@ -68,43 +69,12 @@ public class Table extends Observable {
 				Integer.valueOf(GameUtils.props.getProperty("dimension.outerFrame.y"))));
 		this.gameFrame.setLayout(new BorderLayout());
 		this.gameFrame.setJMenuBar(this.createJMenuBar());
-		this.chessBoard = Board.createStandardBoard();
+		if(GameUtils.props.getProperty("env").equals("dev")) {
+			this.chessBoard = FenUtilities.createGameFromFEN("8/2p5/3p4/KP5p/1P3p1k/8/4P1P1/8 w - 0 1");
+		} else {
+			this.chessBoard = Board.createStandardBoard();
+		}
 
-		/*
-		 * this.chessBoard = Board.createTestBoard(
-		 * PieceFactory.createPiece(PieceType.ROOK, 0,
-		 * com.williamspreitzer.chess.Color.BLACK, false),
-		 * PieceFactory.createPiece(PieceType.ROOK, 5,
-		 * com.williamspreitzer.chess.Color.BLACK, false),
-		 * PieceFactory.createPiece(PieceType.PAWN, 8,
-		 * com.williamspreitzer.chess.Color.BLACK, true),
-		 * PieceFactory.createPiece(PieceType.PAWN, 9,
-		 * com.williamspreitzer.chess.Color.BLACK, true),
-		 * PieceFactory.createPiece(PieceType.PAWN, 10,
-		 * com.williamspreitzer.chess.Color.BLACK, true),
-		 * PieceFactory.createPiece(PieceType.PAWN, 13,
-		 * com.williamspreitzer.chess.Color.BLACK, true),
-		 * PieceFactory.createPiece(PieceType.PAWN, 14,
-		 * com.williamspreitzer.chess.Color.BLACK, true),
-		 * PieceFactory.createPiece(PieceType.KING, 15,
-		 * com.williamspreitzer.chess.Color.BLACK, false),
-		 * PieceFactory.createPiece(PieceType.KNIGHT, 12,
-		 * com.williamspreitzer.chess.Color.WHITE, false),
-		 * PieceFactory.createPiece(PieceType.ROOK, 27,
-		 * com.williamspreitzer.chess.Color.WHITE, false),
-		 * PieceFactory.createPiece(PieceType.PAWN, 41,
-		 * com.williamspreitzer.chess.Color.WHITE, false),
-		 * PieceFactory.createPiece(PieceType.PAWN, 48,
-		 * com.williamspreitzer.chess.Color.WHITE, true),
-		 * PieceFactory.createPiece(PieceType.PAWN, 53,
-		 * com.williamspreitzer.chess.Color.WHITE, true),
-		 * PieceFactory.createPiece(PieceType.PAWN, 54,
-		 * com.williamspreitzer.chess.Color.WHITE, true),
-		 * PieceFactory.createPiece(PieceType.PAWN, 55,
-		 * com.williamspreitzer.chess.Color.WHITE, true),
-		 * PieceFactory.createPiece(PieceType.KING, 62,
-		 * com.williamspreitzer.chess.Color.WHITE, true));
-		 */
 		this.historyPanel = new GameHistoryPanel();
 		this.takePiecesPanel = new TakenPiecesPanel();
 		Table.iconPath = GameUtils.props.getProperty("piece.default");
